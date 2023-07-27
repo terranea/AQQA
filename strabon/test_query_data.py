@@ -3,7 +3,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 if __name__ == "__main__":
 
     # Set up the endpoint URL
-    endpoint_url = "http://localhost:9999/Strabon/Query"
+    endpoint_url = "http://64.225.134.139:9999/Strabon/Query"
 
     # Create a SPARQLWrapper instance with the endpoint URL
     sparql = SPARQLWrapper(endpoint_url)
