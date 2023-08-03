@@ -1,19 +1,19 @@
 
 {
 	"name": "AQQA-KGCreation-Dev",
-	"image": "continuumio/miniconda3",
+	"image": "continuumio/miniconda3",			
+	"remoteEnv": {
+		"DEVCONTAINER": "true"
+	},
+	
 	 "extensions": [],
-	  "runArgs": [
+	 "runArgs": [
 	    "-u",
 	    "conda",
 	    "init",
 	    "bash"
 	  ],	
-			
-	"remoteEnv": {
-		"DEVCONTAINER": "true"
-	},
-	
+		  
 	"mounts": [
          "source=C:/Users/david/Documents/Projekte/CHATBOT/Chatbot_nextcloud/Projekte/AI4Copernicus/Project/Development/data,target=/mnt/data,type=bind,consistency=cached"
          ],
