@@ -1,4 +1,5 @@
 import xarray as xr
+import datetime
 
 
 def clip_netcdf_to_bb(ds: xr.core.dataset.Dataset, bounding_box: list):
@@ -19,3 +20,11 @@ def clip_netcdf_to_bb(ds: xr.core.dataset.Dataset, bounding_box: list):
     clipped_ds = ds.sel(lat=lat_indices, lon=lon_indices)
 
     return clipped_ds
+
+
+def unix_ts_to_date_str(ts: int):
+
+    unix_timestamp = ts / 1_000_000_000  # Convert nanoseconds to seconds
+    date_obj = datetime.date.fromtimestamp(unix_timestamp)
+    formatted_date = date_obj.strftime("%Y-%m-%d")
+    return formatted_date
