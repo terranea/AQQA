@@ -1,0 +1,5 @@
+conda create -n aqqa python=3.8
+conda install -c conda-forge netcdf4
+conda install -c anaconda xarray
+conda install -c conda-forge rdflib
+conda install -c conda-forge sparqlwrapper
