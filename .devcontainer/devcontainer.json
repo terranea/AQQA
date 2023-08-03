@@ -2,27 +2,12 @@
 {
 	"name": "AQQA-KGCreation-Dev",
 	"image": "continuumio/miniconda3",			
+	
 	"remoteEnv": {
 		"DEVCONTAINER": "true"
 	},
-	
-	 "extensions": [],
-	 "runArgs": [
-	    "-u",
-	    "conda",
-	    "init",
-	    "bash"
-	  ],	
 		  
 	"mounts": [
          "source=C:/Users/david/Documents/Projekte/CHATBOT/Chatbot_nextcloud/Projekte/AI4Copernicus/Project/Development/data,target=/mnt/data,type=bind,consistency=cached"
-         ],
-	
-       "postCreateCommand": "conda create -n aqqa_dev python=3.8",
-       "postStartCommand": "conda activate aqqa_dev && conda install -c conda-forge netcdf4 xarray rdflib",
-       "postAttachCommand": "conda activate aqqa_dev",
-       "remoteUser": "vscode",
-       "settings": {
-          "terminal.integrated.shell.linux": "/bin/bash"
-       }
+         ]
 }
