@@ -1,7 +1,7 @@
 import cdsapi
 import yaml
 
-with open("../plattforms/ads/.cdsapirc", 'r') as f:
+with open(".cdsapirc", 'r') as f:
         credentials = yaml.safe_load(f)
 
 c = cdsapi.Client(url=credentials['url'], key=credentials['key'])
@@ -9,11 +9,6 @@ c = cdsapi.Client(url=credentials['url'], key=credentials['key'])
 
 #for year in ["2019", "2020", "2021"]
 #    for month in ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]:
-
-#'variable': [
-#    'carbon_monoxide', 'nitrogen_dioxide', 'ozone',
-#    'particulate_matter_10um', 'particulate_matter_2.5um', 'sulphur_dioxide',
-#],
 
 for year in ["2020"]:
     for month in ["01"]:
@@ -24,12 +19,13 @@ for year in ["2020"]:
                 'type': 'validated_reanalysis',
                 'year': year,
                 'format': 'zip',
-                'variable': ['particulate_matter_2.5um'],
+                'variable': ['carbon_monoxide', 'nitrogen_dioxide', 'ozone',
+                             'particulate_matter_10um', 'particulate_matter_2.5um', 'sulphur_dioxide'],
                 'model': 'ensemble',
                 'level': '0',
                 'month': month,
             },
-            f'../data/raw/cams_euro_aq_reanalysis/{year}/download_{year}_{month}.zip')
+            f'/mnt/data/raw/cams_euro_aq_reanalysis/{year}/download_{year}_{month}.zip')
 
 
 
