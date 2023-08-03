@@ -2,11 +2,9 @@
 {
 	"name": "AQQA-KGCreation-Dev",
 	"image": "continuumio/miniconda3",
-	"postCreateCommand": "pip3 install -r requirements.txt"
+	"postCreateCommand": "pip3 install -r requirements.txt",
 	
 	"remoteEnv": {
 		"DEVCONTAINER": "true"
 	}
-
-	
 }
