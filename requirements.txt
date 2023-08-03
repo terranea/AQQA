@@ -1,0 +1,9 @@
+sqlwrapper
+cdsapi
+PyYAML
+requests
+rdflib
+networkx
+matplotlib
+xarray
+

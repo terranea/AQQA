@@ -1,4 +1,3 @@
-import rdflib
 from rdflib import Graph, Literal, Namespace, RDF, URIRef, XSD, RDFS, SOSA
 import matplotlib.pyplot as plt
 import networkx as nx
