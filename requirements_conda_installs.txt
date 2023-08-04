@@ -9,3 +9,4 @@ conda install -c conda-forge cdsapi
 pip install PyYAML
 conda install -c conda-forge shapely
 pip install geojson
+pip install httplib2

@@ -1,7 +1,7 @@
 import requests
 
 # Endpoint URL to upload data
-endpoint_url = "http://localhost:9999/Strabon/Query"
+endpoint_url = "http://64.225.134.139:9999/Strabon/"
 
 # authentication credentials
 username = "endpoint"

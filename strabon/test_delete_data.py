@@ -1,7 +1,7 @@
 from SPARQLWrapper import SPARQLWrapper, POST, DIGEST
 
 # Endpoint URL to delete data
-sparql = SPARQLWrapper("http://localhost:9999/Strabon/Query")
+sparql = SPARQLWrapper("http://64.225.134.139:9999/Strabon/")
 sparql.setHTTPAuth(DIGEST)
 sparql.setCredentials("endpoint", "endpoint")
 sparql.setMethod(POST)
@@ -18,4 +18,3 @@ sparql.setQuery(
 )
 
 results = sparql.query()
-print(results.response.read())

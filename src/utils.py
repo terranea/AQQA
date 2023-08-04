@@ -23,6 +23,7 @@ def clip_netcdf_to_bb(ds: xr.core.dataset.Dataset, bounding_box: list):
 
 
 def unix_ts_to_date_str(ts: int):
+    """Function converts unix timestamp to date string"""
 
     unix_timestamp = ts / 1_000_000_000  # Convert nanoseconds to seconds
     date_obj = datetime.date.fromtimestamp(unix_timestamp)
