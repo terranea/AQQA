@@ -1,3 +1,4 @@
 PyYAML
 geojson
 httplib2
+fiona
