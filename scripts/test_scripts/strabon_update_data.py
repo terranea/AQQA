@@ -18,7 +18,7 @@ PREFIX sf: <http://www.opengis.net/ont/sf#> .
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 INSERT DATA {
-    aqqa:PM25 
+    aqqa:PM25xxx 
         rdf:type sosa:ObservableProperty ;
         rdfs:label "PM 2.5" ;
         aqqa:hasUnit "µg m-3" ;
@@ -26,7 +26,7 @@ INSERT DATA {
 
     aqqa:Cell_X
         rdf:type sosa:FeatureOfInterest ;
-        aqqa:hasID 1 ;
+        aqqa:hasID 1000000 ;
         geo:hasGeometry aqqa:GeomCell_X .
 
     aqqa:GeomCell_X
