@@ -8,47 +8,6 @@ if __name__ == "__main__":
     # Create a SPARQLWrapper instance with the endpoint URL
     sparql = SPARQLWrapper(endpoint_url)
 
-    query =     """   
-    PREFIX aqqa: <http://example.com/ontologies/aqqa#>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX sosa: <http://www.w3.org/ns/sosa/>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX sf: <http://www.opengis.net/ont/sf#>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-
-    SELECT ?var ?unit ?time ?measurement
-    WHERE {
-            ?s 
-                a sosa:Observation ;
-                sosa:resultTime ?time ;
-                sosa:hasSimpleResult ?measurement ;
-                sosa:observedProperty ?obsProp .
-            ?obsProp 
-                rdfs:label ?var ;
-                aqqa:hasUnit ?unit .
-    }"""
-
-    query = """
-    PREFIX gadm: <http://example.com/ontologies/gadm#> 
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
-    PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
-
-    SELECT ?name ?lvl
-    WHERE {
-        ?s a gadm:AdministrativeUnit ;
-            gadm:hasName ?name ;
-            gadm:hasNationalLevel ?lvl ;
-            geo:hasGeometry ?geom_ent .
-
-        ?geom_ent geo:asWKT ?geom .
-        
-        FILTER (geof:sfContains(?geom, 'POINT(9.729870 48.330776)'^^geo:wktLiteral))
-    } 
-    LIMIT 10
-    """
-
-
     # List observations with geometries
     query = """
     PREFIX sosa: <http://www.w3.org/ns/sosa/>
@@ -68,6 +27,8 @@ if __name__ == "__main__":
     query = """
     PREFIX sosa: <http://www.w3.org/ns/sosa/>
     PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+    PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+    PREFIX gadm: <http://example.com/ontologies/gadm/>
 
     SELECT ?obs_time ?obs_result
     WHERE {
@@ -77,6 +38,11 @@ if __name__ == "__main__":
            sosa:hasSimpleResult ?obs_result .
         ?foi geo:hasGeometry ?geom_ent .
         ?geom_ent geo:asWKT ?geom .
+        ?gadm_name a gadm:AdministrativeUnit ;
+                   gadm:hasName 'Neurkirchen' ;
+                   geo:hasGeometry ?gadm_geom_ent .
+        ?gadm_geom_ent geo:asWKT ?gadm_geom .
+        FILTER(geof:sfIntersects(?gadm_geom, ?geom)) 
     } 
     LIMIT 10
     """
