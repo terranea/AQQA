@@ -48,6 +48,39 @@ if __name__ == "__main__":
     LIMIT 10
     """
 
+
+    # List observations with geometries
+    query = """
+    PREFIX sosa: <http://www.w3.org/ns/sosa/>
+    PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+
+    SELECT ?s ?geom
+    WHERE {
+        ?s a sosa:Observation ;
+           sosa:hasFeatureOfInterest ?foi .
+        ?foi geo:hasGeometry ?geom_ent .
+        ?geom_ent geo:asWKT ?geom .
+    } 
+    LIMIT 10
+    """
+
+    # List values and timestamps of CO2 for municipality called Neukirchen
+    query = """
+    PREFIX sosa: <http://www.w3.org/ns/sosa/>
+    PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+
+    SELECT ?obs_time ?obs_result
+    WHERE {
+        ?obs a sosa:Observation ;
+           sosa:hasFeatureOfInterest ?foi ;
+           sosa:resultTime ?obs_time ;
+           sosa:hasSimpleResult ?obs_result .
+        ?foi geo:hasGeometry ?geom_ent .
+        ?geom_ent geo:asWKT ?geom .
+    } 
+    LIMIT 10
+    """
+
     # Set the SPARQL query
     sparql.setQuery(query)
 
@@ -58,6 +91,6 @@ if __name__ == "__main__":
        # Execute the query and get the results
        ret = sparql.queryAndConvert()
        for r in ret["results"]["bindings"]:
-          print(f"{r['name']['value']} {r['lvl']['value']}")
+          print(f"{r['obs_time']} {r['obs_result']}")
     except Exception as e:
         print(e)
