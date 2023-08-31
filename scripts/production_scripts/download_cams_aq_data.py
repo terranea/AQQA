@@ -43,12 +43,3 @@ if __name__ == "__main__":
     
     download_cams_aq_data(args.year, args.month, args.variables, args.type, args.output_path)
 
-    """
-    # define data selection parameters
-    year = "2020"
-    month = "01"
-    variables = ['carbon_monoxide', 'nitrogen_dioxide', 'ozone', 'particulate_matter_10um', 'particulate_matter_2.5um', 'sulphur_dioxide']
-    _type = 'validated_reanalysis'
-    path_to_output = f'/mnt/data/raw/cams_euro_aq_reanalysis/{year}/download_{year}_{month}.zip'
-    """
-
