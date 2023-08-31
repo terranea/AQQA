@@ -1,37 +1,54 @@
 import cdsapi
 import yaml
+import argparse
 
 
-
-with open("/workspaces/aqqa-kg-creation-dev/.cdsapirc", 'r') as f:
-        credentials = yaml.safe_load(f)
-
-c = cdsapi.Client(url=credentials['url'], key=credentials['key'])
+def download_cams_aq_data(year: str, month: str, variables: list, _type: str, path_to_output: str, ):
+    """
+    downloads CAMS air quality data from Atmospheric data store 
+    """
+    
+    c.retrieve(
+        'cams-europe-air-quality-reanalyses',
+        {
+            'type': _type,
+            'year': year,
+            'format': 'zip',
+            'variable': variables,
+            'model': 'ensemble',
+            'level': '0',
+            'month': month,
+        },
+        path_to_output)
 
 
 if __name__ == "__main__":
 
+    parser = argparse.ArgumentParser(description="Download CAMS air quality data from Atmospheric data store.")
+    
+    # specify CLI arguments
+    parser.add_argument("--year", required=True, help="Year for which to download the data")
+    parser.add_argument("--month", required=True, help="Month for which to download the data")
+    parser.add_argument("--variables", nargs="+", required=True, help="List of variables to download")
+    parser.add_argument("--type", required=True, help="Type of data to download")
+    parser.add_argument("--output-path", required=True, help="Path to save the downloaded data")
+    
+    args = parser.parse_args()
 
-    for year in ["2019", "2020", "2021", "2022"]:
-        for month in ["02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]:
+    # Open and load credentials from the .cdsapirc file
+    with open("/workspaces/aqqa-kg-creation-dev/.cdsapirc", 'r') as f:
+        credentials = yaml.safe_load(f)
 
-    #for year in ["2020"]:
-    #    for month in ["01"]:
-            print(year, month)
-            
-            c.retrieve(
-                'cams-europe-air-quality-reanalyses',
-                {
-                    'type': 'validated_reanalysis',
-                    'year': year,
-                    'format': 'zip',
-                    'variable': ['carbon_monoxide', 'nitrogen_dioxide', 'ozone',
-                                'particulate_matter_10um', 'particulate_matter_2.5um', 'sulphur_dioxide'],
-                    'model': 'ensemble',
-                    'level': '0',
-                    'month': month,
-                },
-                f'/mnt/data/raw/cams_euro_aq_reanalysis/{year}/download_{year}_{month}.zip')
+    c = cdsapi.Client(url=credentials['url'], key=credentials['key'])
+    
+    download_cams_aq_data(args.year, args.month, args.variables, args.type, args.output_path)
 
-
+    """
+    # define data selection parameters
+    year = "2020"
+    month = "01"
+    variables = ['carbon_monoxide', 'nitrogen_dioxide', 'ozone', 'particulate_matter_10um', 'particulate_matter_2.5um', 'sulphur_dioxide']
+    _type = 'validated_reanalysis'
+    path_to_output = f'/mnt/data/raw/cams_euro_aq_reanalysis/{year}/download_{year}_{month}.zip'
+    """
 
