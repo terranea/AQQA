@@ -6,19 +6,18 @@ Air Quality Question Answering (AQQA) project for AI4Copernicus
 
 This Python script allows you to easily download CAMS (Copernicus Atmosphere Monitoring Service) air quality data from the Atmospheric Data Store (ADS) using the CDS API. It supports downloading data for specified years, months, variables, and types.
 
-## Prerequisites
+### Prerequisites
 
 Before using this script, make sure you have the following:
 
 - A valid `.cdsapirc` file containing your ADS credentials (URL and API key)
 
-## Usage 
+### Usage 
 ```bash
 python download_cams_aq_data.py --year YEAR --month MONTH --variables VARIABLE1 VARIABLE2 ... --type DATA_TYPE --output-path OUTPUT_PATH
 ```
 
 #### Options
-## Options
 
 - `--path-to-input`: **Required.** Path to the zipped folder containing CAMS AQ data.
 - `--bounding-box`: **Required.** Specify the bounding box for your area of interest. Provide four float values: `lat_min`, `lat_max`, `lon_min`, `lon_max`.
@@ -30,7 +29,7 @@ python download_cams_aq_data.py --year YEAR --month MONTH --variables VARIABLE1 
 - `OUTPUT_PATH`: **Required.** Path to save the downloaded data (e.g., /mnt/data/raw/cams_euro_aq_reanalysis/2020/download_2020_01.zip).
 
 
-#### Exampole:
+#### Example:
 ```bash
 python download_cams_aq_data.py --year 2020 --month 01 --variables carbon_monoxide nitrogen_dioxide ozone --type validated_reanalysis --output-path /path/to/output.zip
 ```
