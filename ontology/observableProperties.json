@@ -1,5 +1,4 @@
-
-variables_dict = {
+{
     "PM2P5": {
         "label": "PM2.5",
         "hasUnit": "µg m-3", 
@@ -35,5 +34,5 @@ variables_dict = {
         "hasUnit": "µg m-3", 
         "averagingPeriod": "24h",
         "comment": "Carbon monoxide as averaged over 24 hours" 
-    },     
+    } 
 }

@@ -60,3 +60,30 @@ python preprocess_cams_aq_data.py --path-to-input data.zip --bounding-box 45.82 
 
 #### Output
 Processed NetCDF files with aggregated and clipped data will be saved in the specified --path-to-output folder.
+
+
+## CAMS AQ Data to RDF Conversion
+
+This Python script enables the conversion of CAMS (Copernicus Atmosphere Monitoring Service) air quality data into RDF (Resource Description Framework) observations using a custom ontology. The script reads in air quality data from CAMS AQ and generates RDF triples, which can be used to represent and query the data in a semantic format.
+
+### Usage
+
+```bash
+python convert_to_rdf.py --path-to-nc path_to_nc_file --variable variable_name --path-to-rdf path_to_rdf_file
+```
+
+#### Options
+
+- `--path-to-nc`: **Required.** Path to the NetCDF file containing CAMS AQ data.
+- `--variable`: **Required.** Name of the variable stored in the NetCDF file.
+- `--path-to-rdf`: **Required.** Path to save the RDF output file.
+
+#### Example
+```bash
+python convert_to_rdf.py --path-to-nc data.nc --variable ozone --path-to-rdf output.rdf
+```
+
+This example converts the CAMS AQ data from the data.nc NetCDF file, specifically for the "ozone" variable, and saves the resulting RDF triples in the output.rdf file.
+
+#### Details
+The script reads air quality observations from CAMS AQ data and converts them into RDF triples using a custom ontology. The RDF triples represent observations made by sensors and include information about the observed property, the feature of interest (location), the result, and the time of the observation.
