@@ -86,3 +86,19 @@ This example converts the CAMS AQ data from the data.nc NetCDF file, specificall
 
 #### Details
 The script reads air quality observations from CAMS AQ data and converts them into RDF triples using a custom ontology. The RDF triples represent observations made by sensors and include information about the observed property, the feature of interest (location), the result, and the time of the observation.
+
+
+## Create Reference Raster for CAMS AQ data
+
+This script is designed to extract the cell geometries from CAMS (Copernicus Atmosphere Monitoring Service) AQ (Air Quality) data in NetCDF format and to transform it into RDF with geosparql ontology.
+
+### Prerequisites
+
+Before using this script, make sure you have a CAMS AQ nc file
+
+## Usage
+
+```shell
+python script.py --input-file INPUT_FILE --output-file OUTPUT_FILE
+```
+

@@ -6,23 +6,32 @@ from rdflib.graph import DATASET_DEFAULT_GRAPH_ID as default
 from utils import unix_ts_to_date_str 
 import json
 
+# Constants
+OBSERVABLE_PROPERTIES_JSON_PATH = "/workspaces/aqqa-kg-creation-dev/ontology/observableProperties.json"
+NAMESPACES_JSON_PATH = "/workspaces/aqqa-kg-creation-dev/ontology/namespaces.json"
+
+def load_json_file(file_path):
+    with open(file_path) as json_file:
+        return json.load(json_file)
+
+# Load dictionaries
+variables_dict = load_json_file(OBSERVABLE_PROPERTIES_JSON_PATH)
+namespaces_dict = load_json_file(NAMESPACES_JSON_PATH)
+
 # Define the namespaces
-aqqa = Namespace("http://example.com/ontologies/aqqa#")
-geo = Namespace("http://www.opengis.net/ont/geosparql#")
-xsd = Namespace("http://www.w3.org/2001/XMLSchema#")
-sf = Namespace("http://www.opengis.net/ont/sf#")
+namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
+aqqa = Namespace(namespace_mapping.get("aqqa", None))
+geo = Namespace(namespace_mapping.get("geo", None))
+xsd = Namespace(namespace_mapping.get("xsd", None))
+sf = Namespace(namespace_mapping.get("sf", None))
+
 
 def convert_cams_aq_data_to_rdf(path_to_nc_file: str, var_name: str, path_to_rdf_file: str):
     """Reading in air quality observations from CAMS AQ into AQ graph with custom ontology"""
-    
-    path_to_observable_property_json = "/workspaces/aqqa-kg-creation-dev/ontology/observableProperties.json"
-    with open(path_to_observable_property_json) as json_file:
-        variables_dict = json.load(json_file)
 
     # Create a graph
     g = Graph()
     g.bind("aqqa", aqqa)
-
 
     ds = xr.open_dataset(path_to_nc_file)
     measurement_var = ds.variables[var_name.lower()]
