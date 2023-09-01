@@ -36,12 +36,11 @@ def create_gadm_rdf(path_to_gadm_folder_zip: str, path_to_output_rdf: str):
 
     # Unzip gadm data to a temporary folder
     temp_path = Path("tmp_gadm")
-    temp_path.mkdir(exist_ok=True)
     with zipfile.ZipFile(path_to_gadm_folder_zip, 'r') as zip_ref:
         zip_ref.extractall(temp_path)
     
     # Get paths to individual shp files
-    search_string = str(temp_path / "*.shp")
+    search_string = os.path.join(temp_path, "*/*.shp")
     path_to_shp_files = glob.glob(search_string)
 
     for path_to_shp_file in path_to_shp_files:
@@ -53,6 +52,7 @@ def create_gadm_rdf(path_to_gadm_folder_zip: str, path_to_output_rdf: str):
             for feature in src:
                 geometry = shape(feature['geometry'])
                 geometry_wkt = geometry.wkt
+                ent_administrative_unit_ont = URIRef(gadm["AdministrativeUnit"])
 
                 if adm_lvl > 0:
                 
@@ -69,10 +69,10 @@ def create_gadm_rdf(path_to_gadm_folder_zip: str, path_to_output_rdf: str):
                     ent_hasNationalLevel = URIRef(gadm["hasNationalLevel"])
                     ent_hasType = URIRef(gadm["hasType"])
                     ent_country = URIRef(gadm["country"])
-                    ent_hasUpperLevelUnit = URIRef(gadm["hasUpperLevelUnit"].replace(".", "_"))
+                    ent_hasUpperLevelUnit = URIRef(gadm["hasUpperLevelUnit"])
             
                     # creating rdf triples
-                    g.add((ent_adm_unit, RDF.type, gadm.AdministrativeUnit))
+                    g.add((ent_adm_unit, RDF.type, ent_administrative_unit_ont))
                     g.add((ent_adm_unit, ent_hasName, Literal(name)))
                     g.add((ent_adm_unit, ent_hasNationalLevel, Literal(adm_lvl)))
                     g.add((ent_adm_unit, ent_hasType, Literal(type_)))
@@ -94,7 +94,7 @@ def create_gadm_rdf(path_to_gadm_folder_zip: str, path_to_output_rdf: str):
                     ent_adm_unit_geom = URIRef(gadm[f"GEOM_{gid}"])
                     ent_country = URIRef(gadm["country"])
 
-                    g.add((ent_adm_unit, RDF.type, gadm.AdministrativeUnit))
+                    g.add((ent_adm_unit, RDF.type, ent_administrative_unit_ont))
                     g.add((ent_adm_unit, ent_country, Literal(country)))
                     g.add((ent_adm_unit, GEO.hasGeometry, ent_adm_unit_geom))
                     g.add((ent_adm_unit_geom, RDF.type, sf.Geometry))
