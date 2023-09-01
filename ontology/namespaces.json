@@ -1,6 +1,10 @@
 {
   "namespaces": [
     {
+      "prefix": "gadm",
+      "uri": "http://example.com/ontologies/gadm#"
+    },
+    {
       "prefix": "aqqa",
       "uri": "http://example.com/ontologies/aqqa#"
     },

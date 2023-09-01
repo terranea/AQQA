@@ -102,3 +102,36 @@ Before using this script, make sure you have a CAMS AQ nc file
 python script.py --input-file INPUT_FILE --output-file OUTPUT_FILE
 ```
 
+## Convert GADM shp-files to RDF
+
+This Python script converts shapefiles from a zipped GADM (Global Administrative Areas) folder into RDF (Resource Description Framework) format. It uses the `rdflib` library to create an RDF graph representing administrative units.
+
+## Usage
+
+To use the script, follow these steps:
+
+1. **Download a GADM folder**: You can download GADM shapefiles in ZIP format from the [GADM website](https://gadm.org/). Use the provided URL as an example to download a specific GADM dataset. You can also use the following curl command to download the dataset:
+
+    ```bash
+    curl -o gadm_dataset.zip https://geodata.ucdavis.edu/gadm/gadm4.1/shp/gadm41_AUT_shp.zip
+    ```
+
+2. **Run the script**: Use the following command to run the script:
+
+    ```bash
+    python script_name.py --input-file path/to/gadm_dataset.zip --output-file output.rdf
+    ```
+
+    - `--input-file`: Provide the path to the downloaded GADM ZIP file.
+    - `--output-file`: Specify the path for the output RDF file.
+
+3. **Output**: The script will convert the shapefiles into RDF format and save the resulting RDF graph in the specified output file (`output.rdf` in this example).
+
+## Code Explanation
+
+- The script defines a function `create_gadm_rdf` that handles the conversion of shapefiles to RDF.
+- It uses the `rdflib` library to create an RDF graph and bind namespaces.
+- Shapefiles are unzipped to a temporary folder, and the script iterates through individual shapefiles.
+- Administrative unit information, such as GID (Geographic ID), name, type, and country, is extracted from the shapefiles.
+- RDF triples are created for each administrative unit and its geometry.
+- The RDF graph is serialized to the output RDF file, and the temporary folder is removed.

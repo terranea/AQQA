@@ -113,7 +113,7 @@ def create_cams_aq_ref_raster(path_to_nc: str, path_to_rdf_output: str):
     """Convert cell geometries of CAMS AQ nc file to RDF file"""
 
 
-    path_to_geojson = os.path.join("/mnt/data/processed", "tmp_ref.gejson")
+    path_to_geojson = os.path.join(os.getcwd(), "tmp_ref.gejson")
     print(path_to_geojson)
     nc_geometries_to_geojson(path_to_nc, path_to_geojson)
     convert_ref_grid_to_rdf(path_to_geojson, path_to_rdf_output)
