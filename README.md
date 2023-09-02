@@ -135,3 +135,27 @@ To use the script, follow these steps:
 - Administrative unit information, such as GID (Geographic ID), name, type, and country, is extracted from the shapefiles.
 - RDF triples are created for each administrative unit and its geometry.
 - The RDF graph is serialized to the output RDF file, and the temporary folder is removed.
+
+
+## Sensor Community Data to GeoJSON Converter
+
+This Python script allows you to generate GeoJSON files from Sensor Community data. It retrieves sensor data for a specified year and month, processes it, and saves it as a GeoJSON file. 
+
+### Prerequisites
+
+The sensor ids of the sensors you want to access data must be stored in a csv file with the column "sensor_id"
+
+### Usage 
+
+```bash
+python get_sensor_community_data.py --year YEAR --month MONTH --output OUTPUT_FILE --sensor_id_file SENSOR_ID_FILE
+```
+
+Replace the placeholders with the following values:
+
+- `YEAR`: The year for data retrieval (e.g., 2023).
+- `MONTH`: The month for data retrieval (e.g., 9 for September).
+- `OUTPUT_FILE`: The path to the output GeoJSON file.
+- `SENSOR_ID_FILE`: The path to the CSV file containing sensor IDs.
+
+The script will download sensor data, process it, and save the result as a GeoJSON file.
