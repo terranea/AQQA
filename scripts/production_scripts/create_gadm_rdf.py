@@ -116,6 +116,3 @@ if __name__ == "__main__":
     gadm = Namespace(namespace_mapping.get("gadm", None))
 
     create_gadm_rdf(args.input_file, args.output_file)
-
-
-    #https://geodata.ucdavis.edu/gadm/gadm4.1/shp/gadm41_AUT_shp.zip
