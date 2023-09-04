@@ -79,6 +79,7 @@ def create_geojson_from_sensor_data(sensors_of_interest_df: pd.DataFrame, year: 
 
 
 if __name__ == "__main__":
+    
     parser = argparse.ArgumentParser(description="Generate GeoJSON from Sensor Community Data")
     parser.add_argument("--year", type=int, help="Year for data retrieval")
     parser.add_argument("--month", type=int, help="Month for data retrieval")
@@ -92,6 +93,6 @@ if __name__ == "__main__":
 
     path_to_sensor_ids = args.sensor_id_file
     sensors_of_interest_df = pd.read_csv(path_to_sensor_ids)
-    # TODO: Bug which needs to be fixed.
+    # TODO: Bug which needs to be fixed. When csv storing the sensor ids is not in the right format the code does not work
     sensors_of_interest_df = sensors_of_interest_df.sample(100, random_state=0)
     create_geojson_from_sensor_data(sensors_of_interest_df, args.year, args.month, args.output)
