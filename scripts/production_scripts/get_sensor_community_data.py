@@ -5,6 +5,8 @@ import argparse
 import concurrent.futures
 import requests
 from typing import List
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def generate_urls(year: int, month: int, sensor_id: int, sensor_type: str = "sds011") -> List[str]:
     """Generate URLs to download data from sensor community sensors."""
@@ -35,6 +37,7 @@ def process_sensor_data(url, sid):
     except Exception as e:
         return None
 
+
 def create_geojson_from_sensor_data(sensors_of_interest_df: pd.DataFrame, year: int, month: int, path_to_geojson_output: str):
     """Download sensor data for 1 month for all sensors in the list, process data, and save as GeoJSON."""
 
@@ -43,34 +46,32 @@ def create_geojson_from_sensor_data(sensors_of_interest_df: pd.DataFrame, year: 
         "features": []
     }
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = []
-        for _, item in sensors_of_interest_df.iterrows():
-            sid = int(item["sensor_id"])
-            url_list = generate_urls(year, month, sid)
-            feature = {
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": []
-                },
-                "properties": {
-                    "sensor_id": sid,
-                    "values": []
-                }
+
+    for _, item in sensors_of_interest_df.iterrows():
+        sid = int(item["sensor_id"])
+
+        url_list = generate_urls(year, month, sid)
+        feature = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": []
+            },
+            "properties": {
+                "sensor_id": sid,
+                "values": []
             }
+        }
 
-            for url in url_list:
-                futures.append(executor.submit(process_sensor_data, url, sid))
+        for url in url_list:
+            result = process_sensor_data(url, sid)
 
-            for future in concurrent.futures.as_completed(futures):
-                result = future.result()
-                if result is not None:
-                    date, p1_value, p2_value, lon, lat = result
-                    feature["properties"]["values"].append((date, p1_value, p2_value))
-                    feature["geometry"]["coordinates"] = [lon, lat]
-
-            geojson_data["features"].append(feature)
+            if result is not None:
+                date, p1_value, p2_value, lon, lat = result
+                feature["properties"]["values"].append((date, p1_value, p2_value))
+                feature["geometry"]["coordinates"] = [lon, lat]
+        
+        geojson_data["features"].append(feature)
 
     geojson_string = json.dumps(geojson_data, indent=2)
 
@@ -94,5 +95,5 @@ if __name__ == "__main__":
     path_to_sensor_ids = args.sensor_id_file
     sensors_of_interest_df = pd.read_csv(path_to_sensor_ids)
     # TODO: Bug which needs to be fixed. When csv storing the sensor ids is not in the right format the code does not work
-    sensors_of_interest_df = sensors_of_interest_df.sample(100, random_state=0)
+    sensors_of_interest_df = sensors_of_interest_df.sample(10, random_state=0)
     create_geojson_from_sensor_data(sensors_of_interest_df, args.year, args.month, args.output)

@@ -159,3 +159,19 @@ Replace the placeholders with the following values:
 - `SENSOR_ID_FILE`: The path to the CSV file containing sensor IDs.
 
 The script will download sensor data, process it, and save the result as a GeoJSON file.
+
+
+## Sensor Community Data to RDF Conversion
+
+### Overview
+This Python script converts sensor community data from GeoJSON format to RDF format, allowing structured representation of sensor information and observations.
+
+### Usage
+
+```bash
+python sensor_community_to_rdf.py --path-to-geojson <geojson-file> --path-to-rdf <output-rdf-file>
+```
+
+
+
+
