@@ -2,12 +2,13 @@ import cdsapi
 import yaml
 import argparse
 
+PATH_TO_CDSAPIRC = "/workspaces/aqqa-kg-creation-dev/.cdsapirc"
 
-def download_cams_aq_data(year: str, month: str, variables: list, _type: str, path_to_output: str, ):
+def download_cams_aq_data(year: str, month: str, variables: list, _type: str, path_to_output: str):
     """
     downloads CAMS air quality data from Atmospheric data store 
     """
-    
+
     c.retrieve(
         'cams-europe-air-quality-reanalyses',
         {
@@ -36,7 +37,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Open and load credentials from the .cdsapirc file
-    with open("/workspaces/aqqa-kg-creation-dev/.cdsapirc", 'r') as f:
+    with open(PATH_TO_CDSAPIRC, 'r') as f:
         credentials = yaml.safe_load(f)
 
     c = cdsapi.Client(url=credentials['url'], key=credentials['key'])

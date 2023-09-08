@@ -1,38 +1,45 @@
 #!/bin/bash
 
-# Define lists of years and months
+# Define common variables
+BASE_PATH="mnt/data/Sensor_Community"
 years=(2022)
 months=(1 2)
-PATH_TO_SENSOR_IDS="/mnt/data/processed/Sensor_Community/sensor_community_ids_aoi_sds011.csv"
+PATH_TO_SENSOR_IDS="${BASE_PATH}/sensor_community_ids_aoi_sds011.csv"
+OBSERVATIONS_PATH="${BASE_PATH}/observations"
+SCRIPT_PATH="../data_broker_components"
 
-# Loop over years
+# Create the observations directory if it doesn't exist
+mkdir -p "$OBSERVATIONS_PATH"
+
+# Function to run and check Python scripts
+run_python_script() {
+    script_name="$1"
+    shift
+    python "../data_broker_components/$script_name" "$@"
+    if [ $? -eq 0 ]; then
+        echo "$script_name script executed successfully for Year $year Month $month."
+    else
+        echo "Error: $script_name failed for Year $year Month $month."
+        exit 1
+    fi
+}
+
+# Loop over years and months
 for year in "${years[@]}"; do
-
-    # Loop over months
     for month in "${months[@]}"; do
-        # Run the first Python script with the current year and month
-        path_to_sensor_geojson="/mnt/data/processed/Sensor_Community/observations/sensor_community_data_${year}_${month}.geojson"
-        python ../data_broker_components/get_sensor_community_data.py --year $year --month $month --output $path_to_sensor_geojson --sensor_id_file $PATH_TO_SENSOR_IDS
+        # Get sensor community data, process and write to geojson
+        sensor_data_geojson="$OBSERVATIONS_PATH/sensor_community_data_${year}_${month}.geojson"
+        run_python_script "get_sensor_community_data.py" \
+            --year "$year" \
+            --month "$month" \
+            --output "$sensor_data_geojson" \
+            --sensor_id_file "$PATH_TO_SENSOR_IDS"
 
-        # Check the exit status of the first script
-        if [ $? -eq 0 ]; then
-            echo "First script executed successfully for Year $year Month $month."
-        else
-            echo "Error: First script failed for Year $year Month $month."
-            exit 1
-        fi
-
-        # Run the second Python script with the output of the first script
-        path_to_sensor_rdf="/mnt/data/processed/RDF/Sensor_Community/sensor_community_data_${year}_${month}.ttl"
-        python ../data_broker_components/convert_sensor_comm_geojson_to_rdf.py --path-to-geojson $path_to_sensor_geojson --path-to-rdf $path_to_sensor_rdf
-
-        # Check the exit status of the second script
-        if [ $? -eq 0 ]; then
-            echo "Second script executed successfully for Year $year Month $month."
-        else
-            echo "Error: Second script failed for Year $year Month $month."
-            exit 1
-        fi
+        # Convert the sensor community data to RDF
+        sensor_data_rdf="$OBSERVATIONS_PATH/sensor_community_data_${year}_${month}.ttl"
+        run_python_script "convert_sensor_comm_geojson_to_rdf.py" \
+            --path-to-geojson "$sensor_data_geojson" \
+            --path-to-rdf "$sensor_data_rdf"
 
         echo "Year $year Month $month: Both scripts completed successfully."
     done
