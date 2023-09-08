@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define common variables
-BASE_PATH="mnt/data/Sensor_Community"
-years=(2022)
+BASE_PATH="/mnt/data/Sensor_Community"
+years=(2020)
 months=(1 2)
 PATH_TO_SENSOR_IDS="${BASE_PATH}/sensor_community_ids_aoi_sds011.csv"
 OBSERVATIONS_PATH="${BASE_PATH}/observations"
