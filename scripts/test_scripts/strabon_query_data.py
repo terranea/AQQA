@@ -97,7 +97,6 @@ if __name__ == "__main__":
     } 
     LIMIT 100
     """
-    
 
     # Set the SPARQL query
     sparql.setQuery(query)
@@ -109,6 +108,6 @@ if __name__ == "__main__":
        # Execute the query and get the results
        ret = sparql.queryAndConvert()
        for r in ret["results"]["bindings"]:
-          print(f"{r['obs_time']} {r['obs_result']}")
+          print(r)
     except Exception as e:
         print(e)

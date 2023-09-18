@@ -3,12 +3,13 @@
 # Define common variables
 BASE_PATH="/mnt/data/CAMS"
 years=(2020)
-months=(01 02)
+months=(01)
 # TODO not working in this format
 #bounding_box=(45.82 50.65 8.95 17.22) - right now hard hardcoded it into python command below
 # TODO not working in this format - right now hardcoded it into python command below
 #variables=(carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide)
-variables_short=("co" "no2" "o3" "pm10" "pm2p5" "so2")
+#variables_short=("co" "no2" "o3" "pm10" "pm2p5" "so2")
+variables_short=("co")
 type="validated_reanalysis"
 
 
@@ -36,7 +37,7 @@ for year in "${years[@]}"; do
         run_python_script "download_cams_aq_data.py" \
             --year "$year" \
             --month "$month" \
-            --variables carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide \
+            --variables carbon_monoxide \
             --type "$type" \
             --output-path "${output_path_cams_aq_folder}/cams_aq_${year}_${month}_${type}.zip"
         
@@ -61,7 +62,7 @@ for year in "${years[@]}"; do
 done
 
 # Create RDF file for reference grid
-path_to_ref_grid_rdf="${BASE_PATH}/RDF/reference_grid.ttl"
+path_to_ref_grid_rdf="${BASE_PATH}/RDF/CAMS_reference_grid.ttl"
 run_python_script "create_cams_aq_ref_raster_rdf.py" \
     --input-file "${path_to_nc_folder}/cams_aq_${variable}_${year}${month}.nc" \
     --output-file "$path_to_ref_grid_rdf"
