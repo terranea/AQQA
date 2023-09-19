@@ -98,6 +98,7 @@ if __name__ == "__main__":
     LIMIT 100
     """
 
+
     # Set the SPARQL query
     sparql.setQuery(query)
 
