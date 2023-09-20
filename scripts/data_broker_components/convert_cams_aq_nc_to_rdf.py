@@ -53,7 +53,7 @@ def convert_cams_aq_data_to_rdf(path_to_nc_file: str, var_name: str, path_to_rdf
                 g.add((ent_obs, SOSA.madeBySensor, ent_cams_sensor))
                 g.add((ent_obs, SOSA.observedProperty, ent_obs_prop))
                 g.add((ent_obs, SOSA.hasFeatureOfInterest, ent_cell))
-                g.add((ent_obs, SOSA.hasSimpleResult, Literal(measurement_value)))
+                g.add((ent_obs, SOSA.hasSimpleResult, Literal(measurement_value, datatype=XSD.float)))
                 g.add((ent_obs, SOSA.resultTime, Literal(t, datatype=XSD.date)))
 
     g.serialize(destination=path_to_rdf_file)
