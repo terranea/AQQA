@@ -1,0 +1,36 @@
+# What was the [specific pollutant] concentration in [city/municipality] for [month in year]?
+
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+
+# Aggregating option should be MIN/MAX/AVG
+SELECT (AVG(?obs_result) AS ?avg_obs_result) 
+WHERE {
+    {
+        SELECT ?foi_ent
+        WHERE {
+            ?foi_ent a sosa:FeatureOfInterest ;
+                geo:intersects ?gadm_ent .
+            ?gadm_ent a gadm:AdministrativeUnit ;
+                # gadm name is variable
+                gadm:hasName 'Linz' ;
+                # how to handle national level? Default 3 if possible?
+                # aggregate by national level of more than 1 is available?
+                gadm:hasNationalLevel 3 ;
+        } 
+    }
+
+    ?obs_ent a sosa:Observation ;
+            sosa:hasSimpleResult ?obs_result ; 
+            sosa:resultTime ?obs_time ;
+            sosa:hasFeatureOfInterest ?foi_ent ;
+            sosa:observedProperty ?obs_prop_ent .
+    ?obs_prop_ent a sosa:ObservableProperty ;
+        # observable property is variable 
+        rdfs:label 'CO' .
+
+    # Filtering should be possible for a whole year, a year and a month or a specific time range
+    # Possibility to filter by season? 
+    FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
+} 

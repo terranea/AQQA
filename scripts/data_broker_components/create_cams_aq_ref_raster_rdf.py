@@ -50,10 +50,10 @@ def nc_geometries_to_geojson(path_to_nc: str, path_to_geojson_output: str):
         for col in range(len(lon)):
 
             # Define the vertices of the polygon for the current cell
-            lon_left = lon[col]
-            lon_right = lon[col] + lon_resolution
-            lat_bottom = lat[row]
-            lat_top = lat[row] + lat_resolution
+            lon_left = lon[col] - (lon_resolution / 2)
+            lon_right = lon[col] + (lon_resolution / 2)
+            lat_bottom = lat[row] - (lat_resolution / 2)
+            lat_top = lat[row] + (lat_resolution / 2)
 
             # Create the polygon for the current cell
             polygon = Polygon([(lon_left, lat_bottom), (lon_right, lat_bottom),

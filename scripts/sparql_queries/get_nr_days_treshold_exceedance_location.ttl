@@ -1,0 +1,32 @@
+# On which days in [specific year] did [location] exceed the [specific pollutant] threshold specified by [relevant authority]?
+
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+
+SELECT ?obs_result ?obs_time ?cell_geom
+WHERE {
+    {
+        SELECT ?foi_ent ?cell_geom
+        WHERE {
+            ?foi_ent a sosa:FeatureOfInterest ;
+                geo:intersects ?gadm_ent ;
+                geo:hasGeometry ?cell_geom_ent .
+            ?cell_geom_ent geo:asWKT ?cell_geom .
+            ?gadm_ent a gadm:AdministrativeUnit ;
+                gadm:hasName 'Linz' ;
+                gadm:hasNationalLevel 3 ;
+        } 
+    }
+
+    ?obs_ent a sosa:Observation ;
+            sosa:hasSimpleResult ?obs_result ; 
+            sosa:resultTime ?obs_time ;
+            sosa:hasFeatureOfInterest ?foi_ent ;
+            sosa:observedProperty ?obs_prop_ent .
+    ?obs_prop_ent a sosa:ObservableProperty ;
+        rdfs:label 'CO' .
+
+    FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
+    FILTER (?obs_result > 400)
+} LIMIT 1

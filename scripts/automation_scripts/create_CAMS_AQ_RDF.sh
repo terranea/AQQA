@@ -3,13 +3,13 @@
 # Define common variables
 BASE_PATH="/mnt/data/CAMS"
 years=(2020)
-months=(01)
+months=(01 02)
 # TODO not working in this format
 #bounding_box=(45.82 50.65 8.95 17.22) - right now hard hardcoded it into python command below
 # TODO not working in this format - right now hardcoded it into python command below
 #variables=(carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide)
-#variables_short=("co" "no2" "o3" "pm10" "pm2p5" "so2")
-variables_short=("co")
+variables_short=("co" "no2" "o3" "pm10" "pm2p5" "so2")
+#variables_short=("co")
 type="validated_reanalysis"
 
 
@@ -37,7 +37,7 @@ for year in "${years[@]}"; do
         run_python_script "download_cams_aq_data.py" \
             --year "$year" \
             --month "$month" \
-            --variables carbon_monoxide \
+            --variables carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide \
             --type "$type" \
             --output-path "${output_path_cams_aq_folder}/cams_aq_${year}_${month}_${type}.zip"
         
