@@ -73,14 +73,14 @@ def create_sensor_rdf(path_to_geojson: str, path_to_rdf_output: str):
             g.add((ent_observation_pm25, SOSA.hasFeatureOfInterest, ent_foi))
             g.add((ent_observation_pm25, SOSA.madeBySensor, ent_sensor))
             g.add((ent_observation_pm25, SOSA.observedProperty, URIRef(aqqa["PM2P5"])))
-            g.add((ent_observation_pm25, SOSA.hasSimpleResult, Literal(pm25)))
+            g.add((ent_observation_pm25, SOSA.hasSimpleResult, Literal(pm25, datetype=XSD.float)))
             g.add((ent_observation_pm25, SOSA.resultTime, Literal(timestamp, datatype=XSD.date)))
 
             g.add((ent_observation_pm10, RDF.type, SOSA.Observation))
             g.add((ent_observation_pm10, SOSA.hasFeatureOfInterest, ent_foi))
             g.add((ent_observation_pm10, SOSA.madeBySensor, ent_sensor))
             g.add((ent_observation_pm10, SOSA.observedProperty, URIRef(aqqa["PM10"])))
-            g.add((ent_observation_pm10, SOSA.hasSimpleResult, Literal(pm10)))
+            g.add((ent_observation_pm10, SOSA.hasSimpleResult, Literal(pm10, datetype=XSD.float)))
             g.add((ent_observation_pm10, SOSA.resultTime, Literal(timestamp, datatype=XSD.date)))
     
     g.serialize(destination=path_to_rdf_output)
