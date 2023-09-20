@@ -4,18 +4,19 @@ PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
 PREFIX gadm: <http://example.com/ontologies/gadm#>
 
-SELECT (COUNT(?obs_result) as ?nr_exceedance_days)
+SELECT ?obs_result ?obs_time ?gadm_name ?pop21
 WHERE {
     {
-        SELECT ?foi_ent ?cell_geom
+        SELECT ?foi_ent ?cell_geom ?gadm_name?pop21
         WHERE {
             ?foi_ent a sosa:FeatureOfInterest ;
                 geo:intersects ?gadm_ent ;
                 geo:hasGeometry ?cell_geom_ent .
             ?cell_geom_ent geo:asWKT ?cell_geom .
             ?gadm_ent a gadm:AdministrativeUnit ;
-                gadm:hasName 'Linz' ;
+                gadm:hasName ?gadm_name;
                 gadm:hasNationalLevel 3 ;
+                gadm:hasPopulation2021 ?pop21 ;
         } 
     }
 
@@ -28,5 +29,5 @@ WHERE {
         rdfs:label 'CO' .
 
     FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
-    FILTER (?obs_result > 4000)
-} 
+    FILTER (?obs_result > 400)
+} LIMIT 2
