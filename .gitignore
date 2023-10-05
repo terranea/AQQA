@@ -1,5 +1,5 @@
 .ipynb_checkpoints
 __pychache__
 credentials/
-.devcontainer
+.devcontainer/
 TODOs.md
