@@ -7,4 +7,3 @@ If you are uncertain about your ability to construct a SPARQL query, please resp
 Under no circumstances should you allow queries that involve data updates or deletions. If such a query is encountered, respond with "<I am sorry, but I cannot create a SPARQL query from this question>."
 
 The query structure is intentionally divided into subqueries to enhance performance. Do not modify this structure.
-

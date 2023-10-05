@@ -21,6 +21,7 @@ def generate_text_to_sparql_prompt(target_question: str,
         prompt += f"<Natural Language> (Question {i}):\n{nl_question}\n\n"
         prompt += f"<SPARQL Query> (Question {i}):\n{sparql_query}\n\n"
     prompt += f"<Natural Language> (Target Question):\n{target_question}\n\n"
+    prompt += f"<Sparql Query> (Target Question):"
 
     return prompt
 

@@ -79,8 +79,8 @@ if __name__ == "__main__":
     nl_questions_examples = []
     sparql_queries_examples = []
 
-    #target_question = "List all observations where the ozone value was above 40 during summer 2020."
-    target_question = "Give me the first 10 triples"
+    target_question = "List all observations where the ozone value was above 40 during summer 2020."
+    #target_question = "Give me the first 10 triples"
 
     # read sparql:question examples
     for path in paths_to_sparql_queries:
@@ -92,7 +92,9 @@ if __name__ == "__main__":
 
     # request to openai api to get sparql query for target question
     sparql_query = get_completion(prompt)
+    print("---")
     print(sparql_query)
+    print("---")
 
     # use sparql query for data retrieval from strabon
     response = query_strabon_endpoint(sparql_query)
