@@ -2,7 +2,7 @@ import cdsapi
 import yaml
 import argparse
 
-PATH_TO_CDSAPIRC = "/workspaces/aqqa-kg-creation-dev/.cdsapirc"
+PATH_TO_CDSAPIRC = "/workspaces/aqqa-kg-creation-dev/credentials/.cdsapirc"
 
 def download_cams_aq_data(year: str, month: str, variables: list, _type: str, path_to_output: str):
     """

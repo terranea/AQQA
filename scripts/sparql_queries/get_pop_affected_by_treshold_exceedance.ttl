@@ -2,7 +2,7 @@ PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
 PREFIX gadm: <http://example.com/ontologies/gadm#>
 
-SELECT ?gadm_ent ?gadm_name ?pop21
+SELECT ?gadm_ent ?gadm_name ?pop21 ?obs_time
 WHERE {
     {
         SELECT ?gadm_name ?pop21 ?gadm_ent

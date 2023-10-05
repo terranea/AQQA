@@ -36,6 +36,7 @@ if __name__ == "__main__":
 
 
     nl_question_example_1 = "What was the <observable attribute> concentration in <location name> for <month> <year>?"
+    
     sparql_query_example_1 = """
     PREFIX sosa: <http://www.w3.org/ns/sosa/>
     PREFIX geo: <http://www.opengis.net/ont/geosparql#> 

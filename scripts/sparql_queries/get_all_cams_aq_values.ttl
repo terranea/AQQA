@@ -1,4 +1,4 @@
-# What was the [specific pollutant] concentration in [city/municipality] for [month in year]?
+# What was the CO concentration in Linz for January 2020?
 
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 

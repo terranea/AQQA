@@ -3,6 +3,7 @@
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
 PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?obs_result ?obs_time ?gadm_name ?pop21
 WHERE {

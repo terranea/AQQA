@@ -1,15 +1,34 @@
 import openai
+import os
+from SPARQLWrapper import SPARQLWrapper, JSON
 from prompt_generation import generate_text_to_sparql_prompt
 
 
-# set OPENAI_KEY as environment variables
-# os.environ["OPENAI_KEY"] = "<OPENAI_KEY>"
+PATH_TO_OPENAI_KEY = "../../credentials/openai_key.txt"
+STRABON_ENDPOINT_URL = "http://64.225.134.139:9999/Strabon/Query"
+PATH_TO_MODEL_INSTRUCTIONS = "../sparql_queries/model_instructions.txt"
 
 # set OPENAI_KEY
-#openai.api_key = os.environ["OPENAI_KEY"]
+os.environ["OPENAI_KEY"] = open(PATH_TO_OPENAI_KEY, 'r').read()
+openai.api_key = os.environ["OPENAI_KEY"]
 
-STRABON_ENDPOINT_URL = "http://64.225.134.139:9999/Strabon/Query"
 
+def read_question_sparql_pair(path_to_ttl_file: str):
+    """Reads sparql query from ttl file. First line should always contain the question in natural language"""
+
+    with open(path_to_ttl_file, 'r') as ttl_file:
+        lines = ttl_file.readlines()
+    
+    # Extract the NL question from the first line
+    if lines:
+        nl_question = lines[0].strip()
+
+    # Extract the SPARQL query from the remaining lines
+    if len(lines) > 1:
+        sparql_query = ''.join(lines[1:])
+    
+    return nl_question, sparql_query
+        
 
 def get_completion(prompt, model="gpt-3.5-turbo", temperature=0): 
     """use gpt model to generate text completion given a certain prompt"""
@@ -53,20 +72,32 @@ def query_strabon_endpoint(sparql_query: str, endpoint_url: str = STRABON_ENDPOI
         return None
 
 
-
 if __name__ == "__main__":
 
-    # generate sparql query from natural language question
+    instructions = open(PATH_TO_MODEL_INSTRUCTIONS, 'r').read()
+    paths_to_sparql_queries = ["../sparql_queries/get_agg_cams_aq_values.ttl"]
     nl_questions_examples = []
-    sparql_questions_examples = []
-    target_questions = ""
-    instructions = ""
+    sparql_queries_examples = []
 
-    prompt = generate_text_to_sparql_prompt(target_question, nl_questions_examples, sparql_questions_examples, instructions)
+    #target_question = "List all observations where the ozone value was above 40 during summer 2020."
+    target_question = "Give me the first 10 triples"
+
+    # read sparql:question examples
+    for path in paths_to_sparql_queries:
+        nl_question, sparql_query = read_question_sparql_pair(path)
+        nl_questions_examples.append(nl_question)
+        sparql_queries_examples.append(sparql_query)
+    
+    prompt = generate_text_to_sparql_prompt(target_question, nl_questions_examples, sparql_queries_examples, instructions)
+
+    # request to openai api to get sparql query for target question
     sparql_query = get_completion(prompt)
+    print(sparql_query)
 
     # use sparql query for data retrieval from strabon
     response = query_strabon_endpoint(sparql_query)
+
+    # print out results
     for row in response:
         print(row)
 
