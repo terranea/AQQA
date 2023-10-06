@@ -9,23 +9,11 @@ from SPARQLWrapper import SPARQLWrapper, POST, DIGEST
 import requests
 import json
 import argparse
-
-# Constants
-NAMESPACES_JSON_PATH = "/workspaces/aqqa-kg-creation-dev/ontology/namespaces.json"
+from config import PATH_TO_KG_NAMESPACES_JSON
 
 def load_json_file(file_path):
     with open(file_path) as json_file:
         return json.load(json_file)
-
-# Load dictionaries
-namespaces_dict = load_json_file(NAMESPACES_JSON_PATH)
-
-# Define the namespaces
-namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
-aqqa = Namespace(namespace_mapping.get("aqqa", None))
-geo = Namespace(namespace_mapping.get("geo", None))
-xsd = Namespace(namespace_mapping.get("xsd", None))
-sf = Namespace(namespace_mapping.get("sf", None))
 
 
 def nc_geometries_to_geojson(path_to_nc: str, path_to_geojson_output: str):
@@ -119,6 +107,16 @@ def create_cams_aq_ref_raster(path_to_nc: str, path_to_rdf_output: str):
 
 
 if __name__ == "__main__":
+
+    # Load dictionaries
+    namespaces_dict = load_json_file(PATH_TO_KG_NAMESPACES_JSON)
+
+    # Define the namespaces
+    namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
+    aqqa = Namespace(namespace_mapping.get("aqqa", None))
+    geo = Namespace(namespace_mapping.get("geo", None))
+    xsd = Namespace(namespace_mapping.get("xsd", None))
+    sf = Namespace(namespace_mapping.get("sf", None))
 
     parser = argparse.ArgumentParser(description="Convert cell geometries of CAMS AQ nc file to RDF file.")
 

@@ -5,31 +5,17 @@ from rdflib import Graph, Literal, Namespace, RDF, URIRef, XSD, SOSA
 from rdflib.graph import DATASET_DEFAULT_GRAPH_ID as default
 from utils import unix_ts_to_date_str 
 import json
+from config import PATH_TO_OBSERVABLE_PROPERTIES_JSON, PATH_TO_KG_NAMESPACES_JSON
 
-# Constants
-OBSERVABLE_PROPERTIES_JSON_PATH = "/workspaces/aqqa-kg-creation-dev/ontology/observableProperties.json"
-NAMESPACES_JSON_PATH = "/workspaces/aqqa-kg-creation-dev/ontology/namespaces.json"
 
 def load_json_file(file_path):
     with open(file_path) as json_file:
         return json.load(json_file)
 
-# Load dictionaries
-variables_dict = load_json_file(OBSERVABLE_PROPERTIES_JSON_PATH)
-namespaces_dict = load_json_file(NAMESPACES_JSON_PATH)
-
-# Define the namespaces
-namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
-aqqa = Namespace(namespace_mapping.get("aqqa", None))
-geo = Namespace(namespace_mapping.get("geo", None))
-xsd = Namespace(namespace_mapping.get("xsd", None))
-sf = Namespace(namespace_mapping.get("sf", None))
-
 
 def convert_cams_aq_data_to_rdf(path_to_nc_file: str, var_name: str, path_to_rdf_file: str):
     """Reading in air quality observations from CAMS AQ into AQ graph with custom ontology"""
 
-    # Create a graph
     g = Graph()
     g.bind("aqqa", aqqa)
 
@@ -60,6 +46,17 @@ def convert_cams_aq_data_to_rdf(path_to_nc_file: str, var_name: str, path_to_rdf
 
 
 if __name__ == "__main__":
+
+    # Load dictionaries
+    variables_dict = load_json_file(PATH_TO_OBSERVABLE_PROPERTIES_JSON)
+    namespaces_dict = load_json_file(PATH_TO_KG_NAMESPACES_JSON)
+
+    # Define the namespaces
+    namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
+    aqqa = Namespace(namespace_mapping.get("aqqa", None))
+    geo = Namespace(namespace_mapping.get("geo", None))
+    xsd = Namespace(namespace_mapping.get("xsd", None))
+    sf = Namespace(namespace_mapping.get("sf", None))
 
     parser = argparse.ArgumentParser(description="Convert CAMS AQ data to RDF observations.")
     

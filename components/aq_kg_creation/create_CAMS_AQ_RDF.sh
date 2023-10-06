@@ -1,23 +1,24 @@
 #!/bin/bash
 
 # Define common variables
-BASE_PATH="/mnt/data/CAMS"
+BASE_PATH="/mnt/data/CAMS_test"
 years=(2020)
-months=(01 02)
-# TODO not working in this format
-#bounding_box=(45.82 50.65 8.95 17.22) - right now hard hardcoded it into python command below
-# TODO not working in this format - right now hardcoded it into python command below
-#variables=(carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide)
-variables_short=("co" "no2" "o3" "pm10" "pm2p5" "so2")
-#variables_short=("co")
+months=(01)
+
+#variables_short=("co" "no2" "o3" "pm10" "pm2p5" "so2")
+#variables_long="carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide"
+
+variables_short=("co" "no2")
+variables_long="carbon_monoxide nitrogen_dioxide"
 type="validated_reanalysis"
+bounding_box="45.82 50.65 8.95 17.22"
 
 
 # Function to run and check Python scripts
 run_python_script() {
     script_name="$1"
     shift
-    python "../data_broker_components/$script_name" "$@"
+    python "data_broker_components/$script_name" "$@"
     if [ $? -eq 0 ]; then
         echo "$script_name script executed successfully for Year $year Month $month."
     else
@@ -31,13 +32,14 @@ for year in "${years[@]}"; do
     # Loop over months
     for month in "${months[@]}"; do
         
+
         # Download CAMS AQ data
         output_path_cams_aq_folder="${BASE_PATH}/raw/${year}/${month}"
         mkdir -p "$output_path_cams_aq_folder"
         run_python_script "download_cams_aq_data.py" \
             --year "$year" \
             --month "$month" \
-            --variables carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide \
+            --variables $variables_long \
             --type "$type" \
             --output-path "${output_path_cams_aq_folder}/cams_aq_${year}_${month}_${type}.zip"
         
@@ -46,7 +48,7 @@ for year in "${years[@]}"; do
         mkdir -p "$path_to_nc_folder"
         run_python_script "preprocess_cams_aq_data.py" \
             --path-to-input "${output_path_cams_aq_folder}/cams_aq_${year}_${month}_${type}.zip" \
-            --bounding-box 45.82 50.65 8.95 17.22 \
+            --bounding-box $bounding_box \
             --path-to-output "$path_to_nc_folder"
 
         # Convert CAMS AQ observations to RDF
