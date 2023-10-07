@@ -1,9 +1,9 @@
 
-# Instructions for creating your own Air Quality Knowledge Graph with CAMS data
+## Instructions for creating your own Air Quality Knowledge Graph with CAMS data
 
 The following instructions guide you in creating your own Air Quality Knowledge Graph. You can either execute the individual steps by running the python files in the **data_broker_components/** folder, or utilize the provided bash scripts (for more automatization) as described in the documentation below. Instructions for running the python scripts in the command line is provided in the README.md in the **data_broker_components/** folder. 
 
-## Step 1: Create CAMS Air Quality RDF files
+### Step 1: Create CAMS Air Quality RDF files
 
 The task is to convert CAMS Air Quality data, which can be downloaded from the Atmospheric Data Store (https://ads.atmosphere.copernicus.eu), to RDF so that it can be integrated into semantic web applications, analyzed alongside other linked data sources, and made accessible for advanced data querying and visualization. The data will be converted based on an RDF schema which is based on the popular and well established SOSA ontology (https://www.w3.org/2015/spatial/wiki/SOSA_Ontology) The utilized RDF schema is visualized in the image below:
 
@@ -55,7 +55,7 @@ The task is to convert CAMS Air Quality data, which can be downloaded from the A
         - RDF: contains the final RDF files of CAMS Air Quality data and the reference raster with the geometries
 
 
-## Step 2: Create GADM RDF files
+### Step 2: Create GADM RDF files
 
 The task is to convert shapefiles from a zipped GADM (Global Administrative Areas) folder into RDF (Resource Description Framework) format. This is done so that Air Quality data can be retrieved for specific adaministrative units (e.g. Linz or Munich). The shapefile are converted to RDF based on the following RDF schema taken from Bereta, K., Caumont, H., Daniels, U., Goor, E., Koubarakis, M., Pantazi, D.A., Stamoulis, G., Ubels, S., Venus, V. and Wahyudi, F., 2019, March. The Copernicus App Lab project: Easy Access to Copernicus Data. In EDBT (pp. 501-511).:
 
@@ -100,5 +100,5 @@ The task is to convert shapefiles from a zipped GADM (Global Administrative Area
 3. **Output**: The script will convert the shapefiles into RDF format and save the resulting RDF graph in the specified output path 
 
 
-## Step 3 (Optional): Create RDF files from Sensor Community Air Quality Measurements
+### Step 3 (Optional): Create RDF files from Sensor Community Air Quality Measurements
 

@@ -106,10 +106,6 @@ if __name__ == "__main__":
     parser.add_argument("--input-file", required=True, help="Path to the zipped GADM folder downloaded from https://gadm.org/.")
     parser.add_argument("--output-file", required=True, help="Path to the output RDF.")
     args = parser.parse_args()
-    
-    # Define the namespaces
-    namespaces_dict = load_json_file(NAMESPACES_JSON_PATH)
-    namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
-    gadm = Namespace(namespace_mapping.get("gadm", None))
 
+    # execute main function
     create_gadm_rdf(args.input_file, args.output_file)

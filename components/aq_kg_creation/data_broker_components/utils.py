@@ -1,7 +1,7 @@
 import xarray as xr
 import datetime
 import json
-from shapely.geometries import Point
+from shapely.geometry import Point
 
 
 def load_json_file(file_path):
