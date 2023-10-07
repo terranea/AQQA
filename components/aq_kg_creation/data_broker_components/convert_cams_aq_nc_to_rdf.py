@@ -48,7 +48,7 @@ def convert_cams_aq_data_to_rdf(path_to_nc_file: str, var_name: str, path_to_rdf
 if __name__ == "__main__":
 
     # Load dictionaries
-    variables_dict = load_json_file(PATH_TO_OBSERVABLE_PROPERTIES_JSON)
+    # variables_dict = load_json_file(PATH_TO_OBSERVABLE_PROPERTIES_JSON)
     namespaces_dict = load_json_file(PATH_TO_KG_NAMESPACES_JSON)
 
     # Define the namespaces

@@ -103,7 +103,7 @@ def create_cams_aq_ref_raster(path_to_nc: str, path_to_rdf_output: str):
     path_to_geojson = os.path.join(os.getcwd(), "tmp_ref.gejson")
     nc_geometries_to_geojson(path_to_nc, path_to_geojson)
     convert_ref_grid_to_rdf(path_to_geojson, path_to_rdf_output)
-    #os.remove(path_to_geojson)
+    os.remove(path_to_geojson)
 
 
 if __name__ == "__main__":
