@@ -9,22 +9,8 @@ from shapely.geometry import shape
 from rdflib import Graph, Literal, Namespace, URIRef, RDF
 from rdflib.namespace import GEO
 import shutil
-
-# Constants
-NAMESPACES_JSON_PATH = "/workspaces/aqqa-kg-creation-dev/ontology/namespaces.json"
-
-def load_json_file(file_path):
-    with open(file_path) as json_file:
-        return json.load(json_file)
-        
-# Load dictionaries
-namespaces_dict = load_json_file(NAMESPACES_JSON_PATH)
-
-# Define the namespaces
-namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
-gadm = Namespace(namespace_mapping.get("gadm", None))
-xsd = Namespace(namespace_mapping.get("xsd", None))
-sf = Namespace(namespace_mapping.get("sf", None))
+from config import PATH_TO_KG_NAMESPACES_JSON
+from utils import load_json_file
 
 
 def create_gadm_rdf(path_to_gadm_folder_zip: str, path_to_output_rdf: str):
@@ -105,6 +91,17 @@ def create_gadm_rdf(path_to_gadm_folder_zip: str, path_to_output_rdf: str):
     shutil.rmtree(temp_path)
 
 if __name__ == "__main__":
+
+    # Load dictionaries
+    namespaces_dict = load_json_file(PATH_TO_KG_NAMESPACES_JSON)
+
+    # Define the namespaces
+    namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
+    gadm = Namespace(namespace_mapping.get("gadm", None))
+    xsd = Namespace(namespace_mapping.get("xsd", None))
+    sf = Namespace(namespace_mapping.get("sf", None))
+
+    # command line tool
     parser = argparse.ArgumentParser(description="Create RDF file from GADM data.")
     parser.add_argument("--input-file", required=True, help="Path to the zipped GADM folder downloaded from https://gadm.org/.")
     parser.add_argument("--output-file", required=True, help="Path to the output RDF.")

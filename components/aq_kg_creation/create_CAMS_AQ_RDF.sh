@@ -3,13 +3,9 @@
 # Define common variables
 BASE_PATH="/mnt/data/CAMS_test"
 years=(2020)
-months=(01)
-
-#variables_short=("co" "no2" "o3" "pm10" "pm2p5" "so2")
-#variables_long="carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide"
-
-variables_short=("co" "no2")
-variables_long="carbon_monoxide nitrogen_dioxide"
+months=(01 02 03)
+variables_short=("co" "no2" "o3" "pm10" "pm2p5" "so2")
+variables_long="carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide"
 type="validated_reanalysis"
 bounding_box="45.82 50.65 8.95 17.22"
 

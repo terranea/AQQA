@@ -5,33 +5,9 @@ from rdflib import Graph, Literal, Namespace, RDF, URIRef, XSD, SOSA
 from rdflib.graph import DATASET_DEFAULT_GRAPH_ID as default
 import json
 from shapely.geometry import Point
+from utils import load_json_file, coordinates_to_wkt
+from config import PATH_TO_KG_NAMESPACES_JSON, PATH_TO_KG_NAMESPACES_JSON
 
-
-# Constants
-OBSERVABLE_PROPERTIES_JSON_PATH = "/workspaces/aqqa-kg-creation-dev/ontology/observableProperties.json"
-NAMESPACES_JSON_PATH = "/workspaces/aqqa-kg-creation-dev/ontology/namespaces.json"
-
-def load_json_file(file_path):
-    with open(file_path) as json_file:
-        return json.load(json_file)
-
-# Load dictionaries
-variables_dict = load_json_file(OBSERVABLE_PROPERTIES_JSON_PATH)
-namespaces_dict = load_json_file(NAMESPACES_JSON_PATH)
-
-# Define the namespaces
-namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
-aqqa = Namespace(namespace_mapping.get("aqqa", None))
-geo = Namespace(namespace_mapping.get("geo", None))
-xsd = Namespace(namespace_mapping.get("xsd", None))
-sf = Namespace(namespace_mapping.get("sf", None))
-
-
-def coordinates_to_wkt(x, y):
-    "convert point coordinates to wkt literal"
-    point = Point(x, y)
-    wkt = point.wkt
-    return wkt
 
 def create_sensor_rdf(path_to_geojson: str, path_to_rdf_output: str):
     """convert sensor community data (sensors and locations) geojson to rdf file"""
@@ -87,6 +63,17 @@ def create_sensor_rdf(path_to_geojson: str, path_to_rdf_output: str):
 
 
 if __name__ == "__main__":
+
+    # Load dictionaries
+    #variables_dict = load_json_file(PATH_TO_KG_NAMESPACES_JSON)
+    namespaces_dict = load_json_file(PATH_TO_KG_NAMESPACES_JSON)
+
+    # Define the namespaces
+    namespace_mapping = {namespace["prefix"]: namespace["uri"] for namespace in namespaces_dict.get("namespaces", [])}
+    aqqa = Namespace(namespace_mapping.get("aqqa", None))
+    geo = Namespace(namespace_mapping.get("geo", None))
+    xsd = Namespace(namespace_mapping.get("xsd", None))
+    sf = Namespace(namespace_mapping.get("sf", None))
 
     parser = argparse.ArgumentParser(description="Convert Sensor Community data to RDF.")
     

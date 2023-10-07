@@ -1,5 +1,20 @@
 import xarray as xr
 import datetime
+import json
+from shapely.geometries import Point
+
+
+def load_json_file(file_path):
+    "load json file from path"
+    with open(file_path) as json_file:
+        return json.load(json_file)
+
+
+def coordinates_to_wkt(x, y):
+    "convert point coordinates to wkt literal"
+    point = Point(x, y)
+    wkt = point.wkt
+    return wkt
 
 
 def clip_netcdf_to_bb(ds: xr.core.dataset.Dataset, bounding_box: list):

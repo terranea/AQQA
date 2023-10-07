@@ -10,10 +10,7 @@ import requests
 import json
 import argparse
 from config import PATH_TO_KG_NAMESPACES_JSON
-
-def load_json_file(file_path):
-    with open(file_path) as json_file:
-        return json.load(json_file)
+from utils import load_json_file
 
 
 def nc_geometries_to_geojson(path_to_nc: str, path_to_geojson_output: str):
@@ -98,7 +95,6 @@ def convert_ref_grid_to_rdf(path_to_geojson: str, path_to_rdf_ouput: str):
 
 def create_cams_aq_ref_raster(path_to_nc: str, path_to_rdf_output: str):
     """Convert cell geometries of CAMS AQ nc file to RDF file"""
-
 
     path_to_geojson = os.path.join(os.getcwd(), "tmp_ref.gejson")
     nc_geometries_to_geojson(path_to_nc, path_to_geojson)
