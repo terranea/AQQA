@@ -100,11 +100,136 @@ In the folder **sparql_queries** are several examples how to query the AQQA KG. 
 
 ## Step 4: Explanation of selected SPARQL queries
 
-<code>
-SELECT ?subject ?predicate ?object
+- **Example 1:** List first 10 observations with geometries
+
+<pre>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+
+SELECT ?s ?geom
 WHERE {
-  ?subject ?predicate ?object
+    ?s a sosa:Observation ;
+        sosa:hasFeatureOfInterest ?foi .
+    ?foi geo:hasGeometry ?geom_ent .
+    ?geom_ent geo:asWKT ?geom .
+} 
+LIMIT 10
+</pre>
+
+
+**Example 2:** List the first 100 values and timestamps of PM25 concentration at specific location (Linz in this example)
+<pre>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?obs_result ?obs_time
+WHERE {
+?obs a sosa:Observation ;
+    sosa:hasFeatureOfInterest/geo:hasGeometry/geo:asWKT ?foi_geom ;
+    sosa:resultTime ?obs_time ;
+    sosa:hasSimpleResult ?obs_result ;
+    sosa:observedProperty/rdfs:label 'PM2.5' .
+
+FILTER (geof:sfWithin('''<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (14.36343 48.37428)'''^^geo:wktLiteral, ?foi_geom))
 }
-</code>
+LIMIT 100
+</pre>
+
+
+- **Example 3:** Query the name of a municipality (admin lvl 4) at a given location. 
+
+<pre>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+
+SELECT ?gadm_name
+WHERE {
+    ?gadm_ent a gadm:AdministrativeUnit ;
+                gadm:hasName ?gadm_name ;
+                gadm:hasNationalLevel 4 ;
+                geo:hasGeometry ?gadm_geom_ent .
+    ?gadm_geom_ent geo:asWKT ?gadm_geom .
+
+    FILTER (geof:sfWithin('''<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (11.03388 48.11644)'''^^geo:wktLiteral, ?gadm_geom))
+} 
+</pre>
+
+- **Example 4:** Combining the queries from above we now want to query the first 100 PM25 measurements of Geltendorf
+
+<pre>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?obs_time ?obs_result
+WHERE {
+  ?gadm_ent a gadm:AdministrativeUnit ;
+    gadm:hasName 'Geltendorf' ;
+    gadm:hasNationalLevel 4 ;
+    geo:hasGeometry/geo:asWKT ?gadm_geom .
+
+  ?obs a sosa:Observation ;
+    sosa:hasFeatureOfInterest/geo:hasGeometry/geo:asWKT ?foi_geom ;
+    sosa:resultTime ?obs_time ;
+    sosa:hasSimpleResult ?obs_result ;
+    sosa:observedProperty/rdfs:label 'PM2.5' .
+
+  FILTER(geof:sfIntersects(?gadm_geom, ?foi_geom))
+}
+LIMIT 100
+</pre>
+
+- **Example 5:** What was the CO concentration in Linz for January 2020?
+
+THIS query is somehow badly formatted and does not work!
+TODO: fix query
+
+<pre>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+
+SELECT ?obs_result ?obs_time ?foi_ent
+WHERE {
+    {
+        SELECT ?foi_ent
+        WHERE {
+            ?foi_ent a sosa:FeatureOfInterest ;
+                geo:intersects ?gadm_ent .
+            ?gadm_ent a gadm:AdministrativeUnit ;
+                gadm:hasName 'Linz' ;
+                gadm:hasNationalLevel 3 ;
+        } 
+    }
+
+    ?obs_ent a sosa:Observation ;
+            sosa:hasSimpleResult ?obs_result ; 
+            sosa:resultTime ?obs_time ;
+            sosa:hasFeatureOfInterest ?foi_ent ;
+            sosa:observedProperty ?obs_prop_ent .
+    ?obs_prop_ent a sosa:ObservableProperty ;
+        rdfs:label 'CO' .
+
+    FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
+} 
+</pre>
+
+TODOS:
+- add Example 6 get_add_cams_aq_values.ttl
+- add Example 7 get_gadm_names_with_treshold_exeedance.ttl
+- add Example 8 get_nr_days_treshold_exeedance_location.ttl
+- add Example 9 get_pop_affected_by_treshold_exeedance.ttl
+
+
+
+
 
 
