@@ -48,7 +48,12 @@ The task is to convert CAMS Air Quality data, which can be downloaded from the A
     ./create_CAMS_AQ_RDF.sh
     ```
 
-4. Check out the outputs.
+4. (Optional) Create intersection connections between GADM and CAMS reference raster geometries
+
+To prevent that each time when AQ data for a certain place is queried, a spatial operation has to be carried out, you can use the **notebooks/implementation_notebooks/create_gadm_cams_spatial_connections.ipynb** notebook. Only adjust the directories pointing to the GADM RDF files and the directory pointing to the RDF file of the CAMS reference raster.  
+
+
+5. Check out the outputs.
     - In the BASE_PATH folder you specified shoud be three subfolders:
         - raw: contains the zipped nc-file downloaded from Athmosperic data store
         - processed: contains the clipped and aggregated nc-files. One file for each variable
@@ -65,7 +70,8 @@ The task is to convert shapefiles from a zipped GADM (Global Administrative Area
      width="700" height="250" />
 
 
-1. **Download GADM folders for countries of interest**: You can download GADM shapefiles in ZIP format from the [GADM website](https://gadm.org/). Use the provided URL as an example to download a specific GADM dataset. You can also use the following curl command to download the dataset:
+1. **Download GADM folders for countries of interest**: 
+You can download GADM shapefiles in ZIP format from the [GADM website](https://gadm.org/). Use the provided URL as an example to download a specific GADM dataset. You can also use the following curl command to download the dataset:
 
     ```bash
     curl -o gadm_dataset.zip https://geodata.ucdavis.edu/gadm/gadm4.1/shp/gadm41_AUT_shp.zip
@@ -96,8 +102,13 @@ The task is to convert shapefiles from a zipped GADM (Global Administrative Area
     ```bash
     ./create_GADM_RDF.sh
     ```
+The script will convert the shapefiles into RDF format and save the resulting RDF graph in the specified output path 
 
-3. **Output**: The script will convert the shapefiles into RDF format and save the resulting RDF graph in the specified output path 
+4. **(Optional): Enrich the GADM RDF files with population data**
+If you want to enrich your GADM files with population data, you can check out the following notebooks as a starting point:
+- **notebooks/implementation_notebooks/enrich_austrian_gadm_with_population.ipynb**
+- **notebooks/implementation_notebooks/enrich_german_gadmn_with_population.ipyb**
+As this process highly depends on the population data you are using, you will have to adjust the notebooks to fit it to your needs. 
 
 
 ### Step 3 (Optional): Create RDF files from Sensor Community Air Quality Measurements
