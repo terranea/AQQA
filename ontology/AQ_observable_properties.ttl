@@ -1,0 +1,40 @@
+@prefix aqqa: <http://example.com/ontologies/aqqa#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+aqqa:co a sosa:ObservableProperty ;
+    rdfs:label "CO" ;
+    aqqa:averagingPeriod "24h" ;
+    aqqa:hasUnit "µg m-3" ;
+    rdfs:comment "Carbon monoxide as averaged over 24 hours" .
+
+aqqa:no2 a sosa:ObservableProperty ;
+    rdfs:label "NO2" ;
+    aqqa:averagingPeriod "24h" ;
+    aqqa:hasUnit "µg m-3" ;
+    rdfs:comment "Nitrogen dioxide as averaged over 24 hours" .
+
+aqqa:o3 a sosa:ObservableProperty ;
+    rdfs:label "O3" ;
+    aqqa:averagingPeriod "8h" ;
+    aqqa:hasUnit "µg m-3" ;
+    rdfs:comment "Ozone as averaged over 8 hours" .
+
+aqqa:pm10 a sosa:ObservableProperty ;
+    rdfs:label "PM10" ;
+    aqqa:averagingPeriod "24h" ;
+    aqqa:hasUnit "µg m-3" ;
+    rdfs:comment "Particulate matter d < 10 µm (PM10) as averaged over 24 hours" .
+
+aqqa:pm2p5 a sosa:ObservableProperty ;
+    rdfs:label "PM2.5" ;
+    aqqa:averagingPeriod "24h" ;
+    aqqa:hasUnit "µg m-3" ;
+    rdfs:comment "Particulate matter d < 2.5 µm (PM2.5) as averaged over 24 hours" .
+
+aqqa:so2 a sosa:ObservableProperty ;
+    rdfs:label "SO2" ;
+    aqqa:averagingPeriod "24h" ;
+    aqqa:hasUnit "µg m-3" ;
+    rdfs:comment "Sulphur dioxide as averaged over 24 hours" .
+

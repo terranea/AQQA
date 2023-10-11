@@ -8,8 +8,8 @@ from typing import List
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-def generate_urls(year: int, month: int, sensor_id: int, sensor_type: str = "sds011") -> List[str]:
-    """Generate URLs to download data from sensor community sensors."""
+def generate_urls(year: int, month: int, sensor_id: int, sensor_type: str = "sds011"):
+    """Generate list of URLs to download data from sensor community sensors."""
 
     urls = []
 
@@ -23,17 +23,15 @@ def generate_urls(year: int, month: int, sensor_id: int, sensor_type: str = "sds
 
     return urls
 
-def process_sensor_data(url, sid):
+def process_sensor_data(url):
     """extract coordinates of sensor and aggregate PM10 and PM25 values to daily temporal resolution (24h)"""
 
     try:
         df = pd.read_csv(url, sep=";")
-        lat = df.loc[0, "lat"]
-        lon = df.loc[0, "lon"]
         p1_value = df["P1"].mean()
         p2_value = df["P2"].mean()
         date = url.split("/")[-2]
-        return (date, p1_value, p2_value, lon, lat)
+        return (date, p1_value, p2_value)
     except Exception as e:
         return None
 
@@ -49,13 +47,15 @@ def create_geojson_from_sensor_data(sensors_of_interest_df: pd.DataFrame, year: 
 
     for _, item in sensors_of_interest_df.iterrows():
         sid = int(item["sensor_id"])
+        lat = float(item["lat"])
+        lon = float(item["lon"])
 
         url_list = generate_urls(year, month, sid)
         feature = {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": []
+                "coordinates": [lon, lat]
             },
             "properties": {
                 "sensor_id": sid,
@@ -64,12 +64,11 @@ def create_geojson_from_sensor_data(sensors_of_interest_df: pd.DataFrame, year: 
         }
 
         for url in url_list:
-            result = process_sensor_data(url, sid)
+            result = process_sensor_data(url)
 
             if result is not None:
-                date, p1_value, p2_value, lon, lat = result
+                date, p1_value, p2_value= result
                 feature["properties"]["values"].append((date, p1_value, p2_value))
-                feature["geometry"]["coordinates"] = [lon, lat]
         
         geojson_data["features"].append(feature)
 
@@ -94,6 +93,7 @@ if __name__ == "__main__":
 
     path_to_sensor_ids = args.sensor_id_file
     sensors_of_interest_df = pd.read_csv(path_to_sensor_ids)
-    # TODO: Bug which needs to be fixed. When csv storing the sensor ids is not in the right format the code does not work
-    sensors_of_interest_df = sensors_of_interest_df.sample(10, random_state=0)
     create_geojson_from_sensor_data(sensors_of_interest_df, args.year, args.month, args.output)
+
+
+    

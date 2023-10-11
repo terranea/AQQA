@@ -102,3 +102,77 @@ The task is to convert shapefiles from a zipped GADM (Global Administrative Area
 
 ### Step 3 (Optional): Create RDF files from Sensor Community Air Quality Measurements
 
+This step can be done when you want to enrich the Knowledge Graph with in-situ Air Quality measurements from the Sensor Community. (https://sensor.community/de/). The in-situ data is converted to RDF using the same ontology as used for the CAMS AQ data. 
+
+To access the Sensor Community data and convert it RDF the following steps has to be taken:
+
+1. **Create csv-file storing IDs of sensors we want to access**
+
+We first want to create a list storing the IDs of all the sensors whose data we want to access. To create such a list you can use the jupyter notebook in **notebooks/implementation_notebooks/get_community_sensor_IDs.ipynb**. To adapt the code so you can access information about sensors relevant to your need, please have a look at this (unofficial) documentation: https://api-sensor-community.bessarabov.com/
+
+The csv should look like the following table:
+
+| sensor_id |   lon   |   lat   |
+|-----------|---------|---------|
+|    4      | 11.538  | 48.138  |
+|    5      |  9.2    | 48.776  |
+|    6      | 11.644  | 48.242  |
+|    8      | 11.0028 | 49.6000 |
+|   10      | 10.224  | 50.074  |
+|   13      | 11.44   | 48.77   |
+|   14      |  8.952  | 50.112  |
+|   23      |  9.0    | 48.67   |
+
+
+2. **Convert the data of the selected sensors to RDF**
+
+To access and convert the sensor data to RDF you can execute the **create_Sensor_Community_RDF.sh** script. Before you do that, adjust the following variables to your needs. 
+
+```bash
+# Path where all the data should be stored
+BASE_PATH="/mnt/data/Sensor_Community"
+years=(2020)
+months=(1 2)
+# Point to the location of the sensor id csv file
+PATH_TO_SENSOR_IDS="${BASE_PATH}/sensor_community_ids_aoi_sds011.csv"
+# Define the directory where the RDF files should be stored
+OBSERVATIONS_PATH="${BASE_PATH}/observations"
+```
+
+After executing the **create_Sensor_Community_RDF.sh** the sensor data should be converted to RDF files, sharing the same vocabulary as the CAMS Air quality data. 
+
+**Important** 
+Please be aware that accessing the data from a lot of sensors is currently taking a large amount of time. Processing the data of ~10 sensors for one month should take about 1-2 minutes. 
+
+**Important**
+In the scripts it is assumed that you access sensors of type "sds011" which only measure PM25 and PM10 values. Small adjustments must be made to access data from other sensor types. 
+
+
+### Step 4 (Optional): Create single RDF file for storing all relevant AQ data
+
+Finally you can merge all the relevant RDF files into one file. For that purpose you can use the **data_broker_components/create_ttl_data_dump.py** script. 
+Adjust the directories at the beginning of the file and then execute.
+
+```python
+python create_ttl_data_dump.py
+```
+
+**NOTE** The file **AQ_observable_properties.ttl** is stored in the ontology folder
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

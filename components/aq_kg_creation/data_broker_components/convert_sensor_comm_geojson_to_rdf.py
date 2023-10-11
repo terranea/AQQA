@@ -18,7 +18,6 @@ def create_sensor_rdf(path_to_geojson: str, path_to_rdf_output: str):
 
     provider = "SensorCommunityAPI"
 
-    path_to_geojson = path_to_geojson
     with open(path_to_geojson, 'r') as geojson_file:
         data = json.load(geojson_file)
 
@@ -49,14 +48,14 @@ def create_sensor_rdf(path_to_geojson: str, path_to_rdf_output: str):
             g.add((ent_observation_pm25, SOSA.hasFeatureOfInterest, ent_foi))
             g.add((ent_observation_pm25, SOSA.madeBySensor, ent_sensor))
             g.add((ent_observation_pm25, SOSA.observedProperty, URIRef(aqqa["PM2P5"])))
-            g.add((ent_observation_pm25, SOSA.hasSimpleResult, Literal(pm25, datetype=XSD.float)))
+            g.add((ent_observation_pm25, SOSA.hasSimpleResult, Literal(pm25, datatype=XSD.float)))
             g.add((ent_observation_pm25, SOSA.resultTime, Literal(timestamp, datatype=XSD.date)))
 
             g.add((ent_observation_pm10, RDF.type, SOSA.Observation))
             g.add((ent_observation_pm10, SOSA.hasFeatureOfInterest, ent_foi))
             g.add((ent_observation_pm10, SOSA.madeBySensor, ent_sensor))
             g.add((ent_observation_pm10, SOSA.observedProperty, URIRef(aqqa["PM10"])))
-            g.add((ent_observation_pm10, SOSA.hasSimpleResult, Literal(pm10, datetype=XSD.float)))
+            g.add((ent_observation_pm10, SOSA.hasSimpleResult, Literal(pm10, datatype=XSD.float)))
             g.add((ent_observation_pm10, SOSA.resultTime, Literal(timestamp, datatype=XSD.date)))
     
     g.serialize(destination=path_to_rdf_output)
@@ -65,7 +64,6 @@ def create_sensor_rdf(path_to_geojson: str, path_to_rdf_output: str):
 if __name__ == "__main__":
 
     # Load dictionaries
-    #variables_dict = load_json_file(PATH_TO_KG_NAMESPACES_JSON)
     namespaces_dict = load_json_file(PATH_TO_KG_NAMESPACES_JSON)
 
     # Define the namespaces

@@ -4,9 +4,8 @@
 BASE_PATH="/mnt/data/Sensor_Community"
 years=(2020)
 months=(1 2)
-PATH_TO_SENSOR_IDS="${BASE_PATH}/sensor_community_ids_aoi_sds011.csv"
+PATH_TO_SENSOR_IDS="${BASE_PATH}/sensor_community_ids_test.csv"
 OBSERVATIONS_PATH="${BASE_PATH}/observations"
-SCRIPT_PATH="../data_broker_components"
 
 # Create the observations directory if it doesn't exist
 mkdir -p "$OBSERVATIONS_PATH"
@@ -15,7 +14,7 @@ mkdir -p "$OBSERVATIONS_PATH"
 run_python_script() {
     script_name="$1"
     shift
-    python "../data_broker_components/$script_name" "$@"
+    python "data_broker_components/$script_name" "$@"
     if [ $? -eq 0 ]; then
         echo "$script_name script executed successfully for Year $year Month $month."
     else
