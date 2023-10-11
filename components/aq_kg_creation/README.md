@@ -1,5 +1,5 @@
 
-## Instructions for creating your own Air Quality Knowledge Graph with CAMS data
+# Instructions for creating your own Air Quality Knowledge Graph with CAMS data
 
 The following instructions guide you in creating your own Air Quality Knowledge Graph. You can either execute the individual steps by running the python files in the **data_broker_components/** folder, or utilize the provided bash scripts (for more automatization) as described in the documentation below. Instructions for running the python scripts in the command line is provided in the README.md in the **data_broker_components/** folder. 
 

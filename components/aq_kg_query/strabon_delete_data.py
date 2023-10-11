@@ -1,7 +1,8 @@
 from SPARQLWrapper import SPARQLWrapper, POST, DIGEST
+from config import STRABON_SPARQL_ENDPOINT
 
 # Endpoint URL to delete data
-sparql = SPARQLWrapper("http://64.225.134.139:9999/Strabon/Update")
+sparql = SPARQLWrapper(STRABON_SPARQL_ENDPOINT)
 sparql.setHTTPAuth(DIGEST)
 sparql.setCredentials("endpoint", "endpoint")
 sparql.setMethod(POST)
