@@ -1,3 +1,4 @@
+# Get first 10 triples
 SELECT ?s ?p ?o
 WHERE {
     ?s ?p ?o

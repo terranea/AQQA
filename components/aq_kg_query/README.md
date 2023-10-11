@@ -91,10 +91,20 @@ The next step is to store the prepared RDF files in Strabon. Here we have 2 opti
 
 ## Step 3: Query data
 
+The file **strabon_query_data.py** demonstrates how you can run sparql queries against the strabon endpoint. 
 
+Make sure that first you change the **STRABON_SPARQL_ENDPOINT** variable in the config.py file
+
+In the folder **sparql_queries** are several examples how to query the AQQA KG. In the following chapter we will go through some of them. 
 
 
 ## Step 4: Explanation of selected SPARQL queries
 
+<code>
+SELECT ?subject ?predicate ?object
+WHERE {
+  ?subject ?predicate ?object
+}
+</code>
 
 
