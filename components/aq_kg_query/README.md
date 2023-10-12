@@ -102,11 +102,11 @@ In the folder **sparql_queries** are several examples how to query the AQQA KG. 
 
 Dont forget to put the prefixes before the query before running it
 
-PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
-PREFIX gadm: <http://example.com/ontologies/gadm#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+- PREFIX sosa: <http://www.w3.org/ns/sosa/>
+- PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+- PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+- PREFIX gadm: <http://example.com/ontologies/gadm#>
+- PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 - **Example 1:** List first 10 observations with geometries
 <pre>
