@@ -100,12 +100,16 @@ In the folder **sparql_queries** are several examples how to query the AQQA KG. 
 
 ## Step 4: Explanation of selected SPARQL queries
 
-- **Example 1:** List first 10 observations with geometries
+Dont forget to put the prefixes before the query before running it
 
-<pre>
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
+- **Example 1:** List first 10 observations with geometries
+<pre>
 SELECT ?s ?geom
 WHERE {
     ?s a sosa:Observation ;
@@ -119,12 +123,6 @@ LIMIT 10
 
 **Example 2:** List the first 100 values and timestamps of PM25 concentration at specific location (Linz in this example)
 <pre>
-PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
-PREFIX gadm: <http://example.com/ontologies/gadm#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
 SELECT ?obs_result ?obs_time
 WHERE {
 ?obs a sosa:Observation ;
@@ -140,14 +138,7 @@ LIMIT 100
 
 
 - **Example 3:** Query the name of a municipality (admin lvl 4) at a given location. 
-
 <pre>
-PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
-PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
-PREFIX gadm: <http://example.com/ontologies/gadm#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-
 SELECT ?gadm_name
 WHERE {
     ?gadm_ent a gadm:AdministrativeUnit ;
@@ -160,15 +151,9 @@ WHERE {
 } 
 </pre>
 
+
 - **Example 4:** Combining the queries from above we now want to query the first 100 PM25 measurements of Geltendorf
-
 <pre>
-PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
-PREFIX gadm: <http://example.com/ontologies/gadm#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
 SELECT ?obs_time ?obs_result
 WHERE {
   ?gadm_ent a gadm:AdministrativeUnit ;
@@ -187,15 +172,9 @@ WHERE {
 LIMIT 100
 </pre>
 
+
 - **Example 5:** Provide a list of CO concentration measurements in Linz during January 2020.
-
 <pre>
-
-PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
-PREFIX gadm: <http://example.com/ontologies/gadm#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
 SELECT ?obs_time ?obs_result
 WHERE {
     {
@@ -223,13 +202,7 @@ WHERE {
 
 
 - **Example 6**: Give me the daily average of the CO values measured for Linz in January 2020
-
-<code>
-PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
-PREFIX gadm: <http://example.com/ontologies/gadm#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
+<pre>
 SELECT ?obs_time (AVG(?obs_result) AS ?daily_avg)
 WHERE {
     {
@@ -257,7 +230,7 @@ WHERE {
 }
 GROUP BY ?obs_time
 ORDER BY ?obs_time
-<code>
+</pre>
 
 
 - **Example 7:**: Give me the names of the municipalities in which the CO values exceeded 400 during January 2020?
@@ -265,11 +238,6 @@ ORDER BY ?obs_time
 **DOES NOT WORK YET**
 
 <pre>
-PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
-PREFIX gadm: <http://example.com/ontologies/gadm#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
 SELECT ?obs_result ?obs_time ?gadm_name 
 WHERE {
     {
@@ -296,18 +264,11 @@ WHERE {
     FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
     FILTER (?obs_result > 400)
 } 
-
 </pre>
 
 
 - **Example 8:**: How many days in January 2020 were CO values measured in Linz that exceeded 500?
-
 <pre>
-PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
-PREFIX gadm: <http://example.com/ontologies/gadm#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
 SELECT (COUNT(DISTINCT ?obs_time) as ?distinct_days)
 WHERE {
     {
