@@ -1,37 +1,34 @@
-# What was the [specific pollutant] concentration in [city/municipality] for [month in year]?
+# Give me the daily average of the CO values measured for Linz in January 2020
 
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
 PREFIX gadm: <http://example.com/ontologies/gadm#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-# Aggregating option should be MIN/MAX/AVG
-SELECT (AVG(?obs_result) AS ?avg_obs_result) 
+SELECT ?obs_time (AVG(?obs_result) AS ?daily_avg)
 WHERE {
     {
-        SELECT ?foi_ent
+        SELECT ?foi_ent ?cell_geom ?gadm_name
         WHERE {
             ?foi_ent a sosa:FeatureOfInterest ;
-                geo:intersects ?gadm_ent .
+                geo:intersects ?gadm_ent ;
+                geo:hasGeometry ?cell_geom_ent .
+            ?cell_geom_ent geo:asWKT ?cell_geom .
             ?gadm_ent a gadm:AdministrativeUnit ;
-                # gadm name is variable
                 gadm:hasName 'Linz' ;
-                # how to handle national level? Default 3 if possible?
-                # aggregate by national level of more than 1 is available?
                 gadm:hasNationalLevel 3 ;
         } 
     }
 
     ?obs_ent a sosa:Observation ;
-            sosa:hasSimpleResult ?obs_result ; 
-            sosa:resultTime ?obs_time ;
-            sosa:hasFeatureOfInterest ?foi_ent ;
-            sosa:observedProperty ?obs_prop_ent .
+        sosa:hasSimpleResult ?obs_result ; 
+        sosa:resultTime ?obs_time ;
+        sosa:hasFeatureOfInterest ?foi_ent ;
+        sosa:observedProperty ?obs_prop_ent .
     ?obs_prop_ent a sosa:ObservableProperty ;
-        # observable property is variable 
         rdfs:label 'CO' .
 
-    # Filtering should be possible for a whole year, a year and a month or a specific time range
-    # Possibility to filter by season? 
     FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
-} 
+}
+GROUP BY ?obs_time
+ORDER BY ?obs_time

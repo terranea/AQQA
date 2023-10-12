@@ -11,34 +11,37 @@ if __name__ == "__main__":
     #with open(path_to_query_file, 'r') as file:
     #    sparql_query = file.read()
 
+
     sparql_query = """
-    PREFIX sosa: <http://www.w3.org/ns/sosa/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
-    PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-    SELECT ?obs_result ?obs_time ?foi_ent
-    WHERE {
-        {
-            SELECT ?foi_ent
-            WHERE {
-                ?foi_ent a sosa:FeatureOfInterest ;
-                    geo:intersects ?gadm_ent .
-                ?gadm_ent a gadm:AdministrativeUnit ;
-                    gadm:hasName 'Linz' ;
-                    gadm:hasNationalLevel 3 ;
-            } 
-        }
+SELECT ?obs_time ?obs_result
+WHERE {
+    {
+        SELECT ?foi_ent ?gadm_name
+        WHERE {
+            ?foi_ent a sosa:FeatureOfInterest ;
+                geo:intersects ?gadm_ent .
+            ?gadm_ent a gadm:AdministrativeUnit ;
+                gadm:hasName 'Geltendorf' ;
+                gadm:hasNationalLevel 3 .
+        } 
+    }
 
-        ?obs_ent a sosa:Observation ;
-                sosa:hasSimpleResult ?obs_result ; 
-                sosa:resultTime ?obs_time ;
-                sosa:hasFeatureOfInterest ?foi_ent ;
-                sosa:observedProperty ?obs_prop_ent .
-        ?obs_prop_ent a sosa:ObservableProperty ;
-            rdfs:label 'CO' .
+    ?obs_ent a sosa:Observation ;
+        sosa:hasSimpleResult ?obs_result ; 
+        sosa:resultTime ?obs_time ;
+        sosa:hasFeatureOfInterest ?foi_ent ;
+        sosa:observedProperty ?obs_prop_ent .
+    ?obs_prop_ent a sosa:ObservableProperty ;
+        rdfs:label 'CO' .
 
-        FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
-    } 
+    FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
+}
+
     """
 
     # Set the SPARQL query

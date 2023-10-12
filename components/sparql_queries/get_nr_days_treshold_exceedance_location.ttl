@@ -1,4 +1,4 @@
-# On which days in [specific year] did [location] exceed the [specific pollutant] threshold specified by [relevant authority]?
+# On how many days exceeded CO the threshold of 400 during January 2020?
 
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 

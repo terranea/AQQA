@@ -1,4 +1,4 @@
-# On which days in [specific year] did [location] exceed the [specific pollutant] threshold specified by [relevant authority]?
+# In which municipalities in January 2020 did the CO value exceed 400?
 
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
@@ -17,7 +17,6 @@ WHERE {
             ?gadm_ent a gadm:AdministrativeUnit ;
                 gadm:hasName ?gadm_name;
                 gadm:hasNationalLevel 3 ;
-                gadm:hasPopulation2021 ?pop21 ;
         } 
     }
 

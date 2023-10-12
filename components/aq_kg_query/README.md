@@ -187,25 +187,98 @@ WHERE {
 LIMIT 100
 </pre>
 
-- **Example 5:** What was the CO concentration in Linz for January 2020?
-
-THIS query is somehow badly formatted and does not work!
-TODO: fix query
+- **Example 5:** Provide a list of CO concentration measurements in Linz during January 2020.
 
 <pre>
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
 PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?obs_result ?obs_time ?foi_ent
+SELECT ?obs_time ?obs_result
 WHERE {
     {
-        SELECT ?foi_ent
+        SELECT ?foi_ent ?gadm_name
         WHERE {
             ?foi_ent a sosa:FeatureOfInterest ;
                 geo:intersects ?gadm_ent .
             ?gadm_ent a gadm:AdministrativeUnit ;
+                gadm:hasName 'Geltendorf' ;
+                gadm:hasNationalLevel 3 .
+        } 
+    }
+
+    ?obs_ent a sosa:Observation ;
+        sosa:hasSimpleResult ?obs_result ; 
+        sosa:resultTime ?obs_time ;
+        sosa:hasFeatureOfInterest ?foi_ent ;
+        sosa:observedProperty ?obs_prop_ent .
+    ?obs_prop_ent a sosa:ObservableProperty ;
+        rdfs:label 'CO' .
+
+    FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
+}
+</pre>
+
+
+- **Example 6**: Give me the daily average of the CO values measured for Linz in January 2020
+
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?obs_time (AVG(?obs_result) AS ?daily_avg)
+WHERE {
+    {
+        SELECT ?foi_ent ?cell_geom ?gadm_name
+        WHERE {
+            ?foi_ent a sosa:FeatureOfInterest ;
+                geo:intersects ?gadm_ent ;
+                geo:hasGeometry ?cell_geom_ent .
+            ?cell_geom_ent geo:asWKT ?cell_geom .
+            ?gadm_ent a gadm:AdministrativeUnit ;
                 gadm:hasName 'Linz' ;
+                gadm:hasNationalLevel 3 ;
+        } 
+    }
+
+    ?obs_ent a sosa:Observation ;
+        sosa:hasSimpleResult ?obs_result ; 
+        sosa:resultTime ?obs_time ;
+        sosa:hasFeatureOfInterest ?foi_ent ;
+        sosa:observedProperty ?obs_prop_ent .
+    ?obs_prop_ent a sosa:ObservableProperty ;
+        rdfs:label 'CO' .
+
+    FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
+}
+GROUP BY ?obs_time
+ORDER BY ?obs_time
+
+
+
+- **Example 7:**: Give me the names of the municipalities in which the CO values exceeded 400 during January 2020?
+
+**DOES NOT WORK YET**
+
+<pre>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?obs_result ?obs_time ?gadm_name 
+WHERE {
+    {
+        SELECT ?foi_ent ?cell_geom ?gadm_name
+        WHERE {
+            ?foi_ent a sosa:FeatureOfInterest ;
+                geo:intersects ?gadm_ent ;
+                geo:hasGeometry ?cell_geom_ent .
+            ?cell_geom_ent geo:asWKT ?cell_geom .
+            ?gadm_ent a gadm:AdministrativeUnit ;
+                gadm:hasName ?gadm_name ;
                 gadm:hasNationalLevel 3 ;
         } 
     }
@@ -219,14 +292,53 @@ WHERE {
         rdfs:label 'CO' .
 
     FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
+    FILTER (?obs_result > 400)
 } 
+
 </pre>
 
-TODOS:
-- add Example 6 get_add_cams_aq_values.ttl
-- add Example 7 get_gadm_names_with_treshold_exeedance.ttl
-- add Example 8 get_nr_days_treshold_exeedance_location.ttl
-- add Example 9 get_pop_affected_by_treshold_exeedance.ttl
+
+- **Example 8:**: How many days in January 2020 were CO values measured in Linz that exceeded 500?
+
+<pre>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
+PREFIX gadm: <http://example.com/ontologies/gadm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT (COUNT(DISTINCT ?obs_time) as ?distinct_days)
+WHERE {
+    {
+        SELECT ?foi_ent ?cell_geom ?gadm_name
+        WHERE {
+            ?foi_ent a sosa:FeatureOfInterest ;
+                geo:intersects ?gadm_ent ;
+                geo:hasGeometry ?cell_geom_ent .
+            ?cell_geom_ent geo:asWKT ?cell_geom .
+            ?gadm_ent a gadm:AdministrativeUnit ;
+                gadm:hasName 'Linz' ;
+                gadm:hasNationalLevel 3 ;
+        } 
+    }
+
+    ?obs_ent a sosa:Observation ;
+        sosa:hasSimpleResult ?obs_result ; 
+        sosa:resultTime ?obs_time ;
+        sosa:hasFeatureOfInterest ?foi_ent ;
+        sosa:observedProperty ?obs_prop_ent .
+    ?obs_prop_ent a sosa:ObservableProperty ;
+        rdfs:label 'CO' .
+
+    FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
+    FILTER (?obs_result > 500)
+</pre>
+
+
+TODOs:
+- Example 7 is not working
+- The problem regarding the not working queries seems to be that asking data for a specific gadm unit is fine, but when exchanging the name of the unit with ?gadm_name the query breaks
+
+
 
 
 
