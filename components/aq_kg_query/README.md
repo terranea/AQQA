@@ -190,6 +190,7 @@ LIMIT 100
 - **Example 5:** Provide a list of CO concentration measurements in Linz during January 2020.
 
 <pre>
+
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
 PREFIX gadm: <http://example.com/ontologies/gadm#>
@@ -223,6 +224,7 @@ WHERE {
 
 - **Example 6**: Give me the daily average of the CO values measured for Linz in January 2020
 
+<code>
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
 PREFIX gadm: <http://example.com/ontologies/gadm#>
@@ -255,7 +257,7 @@ WHERE {
 }
 GROUP BY ?obs_time
 ORDER BY ?obs_time
-
+<code>
 
 
 - **Example 7:**: Give me the names of the municipalities in which the CO values exceeded 400 during January 2020?
