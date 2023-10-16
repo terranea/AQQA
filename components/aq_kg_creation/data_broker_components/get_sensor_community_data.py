@@ -2,11 +2,9 @@ import pandas as pd
 import calendar
 import json
 import argparse
-import concurrent.futures
 import requests
 from typing import List
 from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def generate_urls(year: int, month: int, sensor_id: int, sensor_type: str = "sds011"):
     """Generate list of URLs to download data from sensor community sensors."""

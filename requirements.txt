@@ -1,0 +1,16 @@
+pandas
+packaging
+netCDF4
+xarray
+shapely
+fiona
+rdflib
+SPARQLWrapper
+geojson
+PyYAML
+streamlit
+httplib2
+cdsapi
+openapi
+jupyterlab
+
