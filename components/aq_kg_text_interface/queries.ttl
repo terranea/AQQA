@@ -7,16 +7,20 @@ aqqa:query1 aqqa:hasQuery """
     PREFIX gadm: <http://example.com/ontologies/gadm#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-    SELECT ?s ?geom
+    SELECT ?obs_time ?obs_result ?foi_geom?
     WHERE {
         ?s a sosa:Observation ;
-            sosa:hasFeatureOfInterest ?foi .
-        ?foi geo:hasGeometry ?geom_ent .
-        ?geom_ent geo:asWKT ?geom .
+            sosa:hasFeatureOfInterest ?foi_ent .
+            sosa:resultTime ?obs_time ;
+            sosa:hasSimpleResult ?obs_result ;
+        ?foi_ent geo:hasGeometry ?foi_geom_ent .
+        ?foi_geom_ent geo:asWKT ?foi_geom .
     } 
     LIMIT 10
     """ ;
-    aqqa:hasDescription "List first 10 observations with geometries." .
+    aqqa:hasDescription "List first 10 observations with geometries." ;
+    aqqa:isWorking 'True' ;
+    aqqa:isForPrompt 'True' . 
 
 
 aqqa:query2 aqqa:hasQuery """
@@ -38,8 +42,8 @@ aqqa:query2 aqqa:hasQuery """
     }
     LIMIT 100
     """ ;
-    aqqa:hasDescription "List the first 100 values and timestamps of PM25 concentration at specific location, where coordinates are given (Linz in this example)" .
-
+    aqqa:hasDescription "List the first 100 values and timestamps of PM25 concentration at specific location, where coordinates are given (Linz in this example)" ;
+    aqqa:isWorking 'True' .
 
 aqqa:query3 aqqa:hasQuery """
     PREFIX sosa: <http://www.w3.org/ns/sosa/>
@@ -59,8 +63,8 @@ aqqa:query3 aqqa:hasQuery """
         FILTER (geof:sfWithin('''<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (11.03388 48.11644)'''^^geo:wktLiteral, ?gadm_geom))
     }
     """ ;
-    aqqa:hasDescription "Return the name of the municipality at a specific location." .
-
+    aqqa:hasDescription "Return the name of the municipality at a specific location." ;
+    aqqa:isWorking 'True' .
 
 aqqa:query4 aqqa:hasQuery """
     PREFIX sosa: <http://www.w3.org/ns/sosa/>
@@ -86,7 +90,8 @@ aqqa:query4 aqqa:hasQuery """
     }
     LIMIT 100
     """ ;
-    aqqa:hasDescription "List the first 100 PM25 measurements for Geltendorf." .
+    aqqa:hasDescription "List the first 100 PM25 measurements for Geltendorf." ;
+    aqqa:isWorking 'True' .
 
 
 aqqa:query5 aqqa:hasQuery """
@@ -96,7 +101,7 @@ aqqa:query5 aqqa:hasQuery """
     PREFIX gadm: <http://example.com/ontologies/gadm#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-    SELECT ?obs_time ?obs_result
+    SELECT ?obs_time ?obs_result ?foi_geom
     WHERE {
         {
             SELECT ?foi_ent ?gadm_name
@@ -104,8 +109,7 @@ aqqa:query5 aqqa:hasQuery """
                 ?foi_ent a sosa:FeatureOfInterest ;
                     geo:intersects ?gadm_ent .
                 ?gadm_ent a gadm:AdministrativeUnit ;
-                    gadm:hasName 'Steiermark' ;
-                    gadm:hasNationalLevel 3 .
+                    gadm:hasName 'Geltendorf' ;
             } 
         }
 
@@ -115,12 +119,18 @@ aqqa:query5 aqqa:hasQuery """
             sosa:hasFeatureOfInterest ?foi_ent ;
             sosa:observedProperty ?obs_prop_ent .
         ?obs_prop_ent a sosa:ObservableProperty ;
-            rdfs:label 'CO' .
+            rdfs:label 'PM10' .
+        ?foi_ent geo:hasGeometry ?foi_geom_ent .
+        ?foi_geom_ent geo:asWKT ?foi_geom .
+
 
         FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
+        FILTER (?obs_result > 40)
     }
     """ ;
-    aqqa:hasDescription "Provide a list of CO concentration measurements in Geltendorf during January 2020." .
+    aqqa:hasDescription "Provide a list of PM10 concentration measurements in Geltendorf during January 2020 exceeding the treshold of 40 microgram." ;
+    aqqa:isWorking 'True' ;
+    aqqa:isForPrompt 'True' .
 
 
 aqqa:query6 aqqa:hasQuery """
@@ -158,7 +168,9 @@ aqqa:query6 aqqa:hasQuery """
     GROUP BY ?obs_time
     ORDER BY ?obs_time
     """ ;
-    aqqa:hasDescription "Give me the daily average of the CO values measured for Linz in January 2020." .
+    aqqa:hasDescription "Give me the daily average of the CO values measured for Linz in January 2020." ;
+    aqqa:isWorking 'True' .
+
 
 
 aqqa:query7 aqqa:hasQuery """
@@ -234,7 +246,7 @@ aqqa:query8 aqqa:hasQuery """
     """ ;
     aqqa:hasDescription "How many days in January 2020 were CO values measured in Linz that exceeded 500?" ;
     aqqa:isWorking 'True' ;
-    aqqa:isForPrompt 'True' .
+    aqqa:isForPrompt 'False' .
 
 
 

@@ -11,6 +11,8 @@ PyYAML
 streamlit
 httplib2
 cdsapi
-openapi
+openai
 jupyterlab
+folium
+streamlit-folium
 

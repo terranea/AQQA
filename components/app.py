@@ -1,25 +1,34 @@
 import streamlit as st
+import folium
+from streamlit_folium import st_folium
+from aq_kg_text_interface.openai_text_to_sparql import text_to_sparql
 
-# Set the title of the app
-st.title("Streamlit App with Sidebar")
+# Set the width for the sidebar
+st.markdown(
+    """
+    <style>
+    .sidebar .sidebar-content {
+        width: 300px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
-# Add a sidebar
-st.sidebar.header("Sidebar")
+# Create a Streamlit sidebar
+st.sidebar.title("Sidebar")
+text_input = st.sidebar.text_input("Enter text here")
 
-# Add a text input field in the sidebar
-user_text = st.sidebar.text_input("Enter text:", "Hello, Streamlit!")
+# Button to commit the action
+if st.sidebar.button("Commit"):
+    sparql_query = text_to_sparql(text_input)
+    st.sidebar.text(sparql_query)
 
-# Display the text from the input field
-st.write(f"Text entered: {user_text}")
+# Create a Folium map
+st.title("Interactive Map")
+map_ = folium.Map(location=[0, 0], zoom_start=2)
 
-# Create a map in the main page
-st.header("Map")
-
-# You can add your map visualization code here using a mapping library (e.g., Folium, Plotly, or Deck.GL)
-# For a basic example, we'll use placeholder text and an iframe to display a map (replace with your actual map code)
-st.write("Replace this with your map code")
-
-# Optionally, you can add some information or instructions below the map
-st.write("You can add your map here and additional information below.")
-
-# Run the app using streamlit run app.py in the terminal
+# Render the Folium map in Streamlit
+st.markdown('### Map')
+folium.LayerControl().add_to(map_)
+out = st_folium(map_, height=650, width=650)
