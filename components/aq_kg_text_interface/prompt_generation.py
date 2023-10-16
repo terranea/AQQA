@@ -1,4 +1,5 @@
-
+import rdflib
+from config import PATH_TO_MODEL_INSTRUCTIONS
 
 def generate_text_to_sparql_prompt(target_question: str, 
                                    example_questions: list, 
@@ -28,55 +29,51 @@ def generate_text_to_sparql_prompt(target_question: str,
 
 if __name__ == "__main__":
 
-    initial_instructions = """Your task is to transform natural language to a sparql query. 
-    There are the following labels for observable attributes: CO, NO2, O3, PM10, PM2P5 SO2
-    The full names of those attributes are: carbon_monoxide nitrogen_dioxide ozone particulate_matter_10um particulate_matter_2.5um sulphur_dioxide
-    For the query always the short version has to be used.
-    If you are not sure if you can construct the sparql query, respond <I am sorry, but I cannot create a sparql query from this question>
-    The structure of this query is purposely divided in subqueries to improve performance. Don't change this structure."""
 
+    # query all sparql queries in queries.ttl and their description which have the predicate "isForPrompt"
+    # Load the RDF data from the "queries.ttl" file
+    g = rdflib.Graph()
+    g.parse("queries.ttl", format="turtle")
 
-    nl_question_example_1 = "What was the <observable attribute> concentration in <location name> for <month> <year>?"
-    
-    sparql_query_example_1 = """
-    PREFIX sosa: <http://www.w3.org/ns/sosa/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#> 
-    PREFIX gadm: <http://example.com/ontologies/gadm#>
+    # Define the SPARQL query
+    query = """
+    PREFIX aqqa: <http://example.com/ontologies/aqqa#> 
 
-    SELECT ?obs_result ?obs_time ?foi_ent
+    SELECT ?queryText ?description
     WHERE {
-        {
-            SELECT ?foi_ent
-            WHERE {
-                ?foi_ent a sosa:FeatureOfInterest ;
-                    geo:intersects ?gadm_ent .
-                ?gadm_ent a gadm:AdministrativeUnit ;
-                    gadm:hasName <location name> ;
-                    gadm:hasNationalLevel 3 ;
-            }
-        }
-
-        ?obs_ent a sosa:Observation ;
-                sosa:hasSimpleResult ?obs_result ; 
-                sosa:resultTime ?obs_time ;
-                sosa:hasFeatureOfInterest ?foi_ent ;
-                sosa:observedProperty ?obs_prop_ent .
-        ?obs_prop_ent a sosa:ObservableProperty ;
-            rdfs:label <observable attribute e.g. PM10> .
-
-        FILTER (YEAR(?obs_time) = <year> && MONTH(?obs_time) = <mont>)
+    ?query aqqa:hasQuery ?queryText ;
+            aqqa:hasDescription ?description ;
+            aqqa:isWorking 'True' ;
+            aqqa:isForPrompt 'True' .
     }
     """
 
+    # Execute the SPARQL query
+    results = g.query(query)
+
+    example_queries = []
+    example_descriptions = []
+
+    # Print the results
+    for row in results:
+        query_text = row.queryText.toPython()
+        example_queries.append(query_text)
+        description = row.description.toPython()
+        example_descriptions.append(description)
+
+    # load model instructions
+    model_instructions = open(PATH_TO_MODEL_INSTRUCTIONS, "r", encoding="utf-8").read()
+
+    # define question of interest
     nl_question_target = "List all observations where the ozone value was above 40 during summer 2020."
 
+    # create query
     prompt = generate_text_to_sparql_prompt(nl_question_target, 
-                                            [nl_question_example_1], 
-                                            [sparql_query_example_1], 
-                                            initial_instructions=initial_instructions) 
+                                        example_descriptions,
+                                        example_queries, 
+                                        model_instructions) 
 
     print(prompt)
-
 
 
 

@@ -104,7 +104,7 @@ aqqa:query5 aqqa:hasQuery """
                 ?foi_ent a sosa:FeatureOfInterest ;
                     geo:intersects ?gadm_ent .
                 ?gadm_ent a gadm:AdministrativeUnit ;
-                    gadm:hasName 'Geltendorf' ;
+                    gadm:hasName 'Steiermark' ;
                     gadm:hasNationalLevel 3 .
             } 
         }
@@ -120,7 +120,7 @@ aqqa:query5 aqqa:hasQuery """
         FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
     }
     """ ;
-    aqqa:hasDescription "Provide a list of CO concentration measurements in Linz during January 2020." .
+    aqqa:hasDescription "Provide a list of CO concentration measurements in Geltendorf during January 2020." .
 
 
 aqqa:query6 aqqa:hasQuery """
@@ -195,7 +195,7 @@ aqqa:query7 aqqa:hasQuery """
         FILTER (?obs_result > 400)
         """ ;
     aqqa:hasDescription "Give me the names of the austrian municipalities in which the CO values exceeded 400 during January 2020." ;
-    aqqa:isWorking False .
+    aqqa:isWorking 'False' .
 
 
 aqqa:query8 aqqa:hasQuery """
@@ -232,7 +232,9 @@ aqqa:query8 aqqa:hasQuery """
         FILTER (?obs_result > 500)
     }
     """ ;
-    aqqa:hasDescription "How many days in January 2020 were CO values measured in Linz that exceeded 500?" .
+    aqqa:hasDescription "How many days in January 2020 were CO values measured in Linz that exceeded 500?" ;
+    aqqa:isWorking 'True' ;
+    aqqa:isForPrompt 'True' .
 
 
 
