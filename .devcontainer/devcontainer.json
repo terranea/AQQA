@@ -11,7 +11,7 @@
          "source=C:/Users/david/Documents/Projekte/CHATBOT/Chatbot_nextcloud/Projekte/AI4Copernicus/Project/Development/data,target=/mnt/data,type=bind,consistency=cached"
          ],
 
-   "appPort": [ 3000, "8501:8501" ]
+   "forwardPorts": [8501]
 }
 
 
