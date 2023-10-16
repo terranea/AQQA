@@ -137,7 +137,7 @@ LIMIT 100
 </pre>
 
 
-- **Example 3:** Query the name of a municipality (admin lvl 4) at a given location. 
+- **Example 3:** Query the name of the municipality at a given location. 
 <pre>
 SELECT ?gadm_name
 WHERE {
@@ -233,9 +233,10 @@ ORDER BY ?obs_time
 </pre>
 
 
-- **Example 7:**: Give me the names of the municipalities in which the CO values exceeded 400 during January 2020?
+- **Example 7:**: Give me the names of the municipalities in which the CO values exceeded 400 during January 2020.
 
 **DOES NOT WORK YET**
+The problem regarding the not working queries seems to be that asking data for a specific gadm unit is fine, but when exchanging the name of the unit with ?gadm_name the query breaks
 
 <pre>
 SELECT ?obs_result ?obs_time ?gadm_name 
@@ -294,12 +295,12 @@ WHERE {
 
     FILTER (YEAR(?obs_time) = 2020 && MONTH(?obs_time) = 1)
     FILTER (?obs_result > 500)
+
+}
 </pre>
 
 
-TODOs:
-- Example 7 is not working
-- The problem regarding the not working queries seems to be that asking data for a specific gadm unit is fine, but when exchanging the name of the unit with ?gadm_name the query breaks
+
 
 
 

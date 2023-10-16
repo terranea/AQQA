@@ -2,11 +2,8 @@ import openai
 import os
 from SPARQLWrapper import SPARQLWrapper, JSON
 from prompt_generation import generate_text_to_sparql_prompt
+from config import STRABON_SPARQL_ENDPOINT, PATH_TO_OPENAI_KEY, PATH_TO_MODEL_INSTRUCTIONS
 
-
-PATH_TO_OPENAI_KEY = "../../credentials/openai_key.txt"
-STRABON_ENDPOINT_URL = "http://64.225.134.139:9999/Strabon/Query"
-PATH_TO_MODEL_INSTRUCTIONS = "../sparql_queries/model_instructions.txt"
 
 # set OPENAI_KEY
 os.environ["OPENAI_KEY"] = open(PATH_TO_OPENAI_KEY, 'r').read()
@@ -42,7 +39,7 @@ def get_completion(prompt, model="gpt-3.5-turbo", temperature=0):
     return response.choices[0].message["content"]
 
 
-def query_strabon_endpoint(sparql_query: str, endpoint_url: str = STRABON_ENDPOINT_URL):
+def query_strabon_endpoint(sparql_query: str, endpoint_url: str):
     """
     Execute a SPARQL query on a Strabon RDF triple store endpoint and retrieve data.
 
@@ -53,6 +50,7 @@ def query_strabon_endpoint(sparql_query: str, endpoint_url: str = STRABON_ENDPOI
     Returns:
         list or None: A list of query results or None if there was an error.
     """
+    
     # Create a SPARQLWrapper object for the specified endpoint URL
     sparql = SPARQLWrapper(endpoint_url)
 
@@ -97,7 +95,7 @@ if __name__ == "__main__":
     print("---")
 
     # use sparql query for data retrieval from strabon
-    response = query_strabon_endpoint(sparql_query)
+    response = query_strabon_endpoint(sparql_query, STRABON_SPARQL_ENDPOINT)
 
     # print out results
     for row in response:
