@@ -109,7 +109,7 @@ aqqa:query5 aqqa:hasQuery """
                 ?foi_ent a sosa:FeatureOfInterest ;
                     geo:intersects ?gadm_ent .
                 ?gadm_ent a gadm:AdministrativeUnit ;
-                    gadm:hasName 'Geltendorf' ;
+                    gadm:hasName 'Geltendorf' .
             } 
         }
 
