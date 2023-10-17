@@ -17,3 +17,21 @@ This project aims to create an Air Quality Knowledge Graph using data from the C
    - **Description**: This component provides the necessary code and files to leverage the OPENAI API for converting natural language text into SPARQL queries. It allows users to query the Air Quality Knowledge Graph using human-friendly language.
 
 For detailed documentation on each component, refer to their respective folders.
+
+
+## Web UI
+
+To illustrate the process, you can utilize the Streamlit app. It facilitates the conversion of natural language into SPARQL queries for querying CAMS AQ data, sending the queries to the Strabon database, and presenting the results visually on a map or in tabular data format.
+
+To start the app run
+```bash
+streamlit run app.py
+```
+
+Then the streamlit app should be accessible on 127.0.0.1:8501. 
+
+<img src="streamlit_app.png"
+     alt="Web UI AQQA"
+     style="display: block; margin: 0 auto;"
+     width="600" height="300" />
+
