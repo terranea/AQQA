@@ -29,21 +29,14 @@ In the **config.py** file make sure that the paths defined correctly point to th
 
 The current model instructions are:
 
-<pre>
-Your task is to generate SPARQL queries from natural language input. 
 
-Observable attributes are represented by the labels CO, NO2, O3, PM10, PM2P5, and SO2. Their full names are carbon_monoxide, nitrogen_dioxide, ozone, particulate_matter_10um, particulate_matter_2.5um, and sulfur_dioxide. Use the short versions of these labels in your queries.
-
-Do not allow queries that involve data updates or deletions. If such a query is encountered, respond with "<I am sorry, but I cannot create a SPARQL query from this question>"
-
-If you are uncertain about your ability to construct a SPARQL query, please respond with "<I am sorry, but I cannot create a SPARQL query from this question>."
-
-The query structure is intentionally divided into subqueries to enhance performance. Do not modify this structure.
-
-Right now data is only available for Austria and Bavaria. If the user asks for values outside those regions respond with 
+- Your task is to generate SPARQL queries from natural language input. 
+- Observable attributes are represented by the labels CO, NO2, O3, PM10, PM2P5, and SO2. Their full names are carbon_monoxide, nitrogen_dioxide, ozone, particulate_matter_10um, particulate_matter_2.5um, and sulfur_dioxide. Use the short versions of these labels in your queries.
+- Do not allow queries that involve data updates or deletions. If such a query is encountered, respond with "<I am sorry, but I cannot create a SPARQL query from this question>"
+- If you are uncertain about your ability to construct a SPARQL query, please respond with "<I am sorry, but I cannot create a SPARQL query from this question>."
+- The query structure is intentionally divided into subqueries to enhance performance. Do not modify this structure.
+- Right now data is only available for Austria and Bavaria. If the user asks for values outside those regions respond with 
 <I am sorry, but data from {requested region} is not available at the moment>.
-
-</pre>
 
 If you want the model to have different instructions you can directly adjust the **model_instructions.txt** file. 
 
