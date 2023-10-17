@@ -33,5 +33,5 @@ Then the streamlit app should be accessible on 127.0.0.1:8501.
 <img src="streamlit_app.png"
      alt="Web UI AQQA"
      style="display: block; margin: 0 auto;"
-     width="900" height="450" />
+     width="800" height="400" />
 
