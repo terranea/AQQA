@@ -63,7 +63,7 @@ def json_to_dataframe(data):
 
         # Create a pandas DataFrame from the formatted data
         df = pd.DataFrame(formatted_data)
-        df.drop_duplicates(inplace=True)
+        #df.drop_duplicates(inplace=True)
         return df
     else:
         print("Invalid JSON format. Unable to convert to DataFrame.")

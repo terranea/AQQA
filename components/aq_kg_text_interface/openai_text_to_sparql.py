@@ -68,10 +68,14 @@ def get_completion(prompt, model="gpt-3.5-turbo", temperature=0):
     return response.choices[0].message["content"]
 
 
-def text_to_sparql(target_question):
+def text_to_sparql(target_question: str):
+
+    # prompt is generated from model instructions, examples and target question
     prompt = generate_text_to_sparql_prompt(target_question)
+
+    # LLM is used to create a sparql query for the target question
     sparql_query = get_completion(prompt)
-    print(sparql_query)
+
     return sparql_query
 
 

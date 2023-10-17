@@ -39,8 +39,12 @@ def create_sidebar():
         else:
             # convert text to sparql query
             sparql_query = text_to_sparql(text_input)
-            st.session_state['sparql_query'] = sparql_query
-            st.experimental_rerun()
+
+            if sparql_query[0] == "<" and sparql_query[-1] == ">":
+                st.sidebar.error(sparql_query[1:-1])
+            else:
+                st.session_state['sparql_query'] = sparql_query
+                st.experimental_rerun()
     
     # Butto to query the databse
     if query_button:
