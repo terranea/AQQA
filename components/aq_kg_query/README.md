@@ -95,8 +95,8 @@ The file **strabon_query_data.py** demonstrates how you can run sparql queries a
 
 Make sure that first you change the **STRABON_SPARQL_ENDPOINT** variable in the config.py file
 
-In the folder **sparql_queries** are several examples how to query the AQQA KG. In the following chapter we will go through some of them. 
-
+Below we are going through some examples queries. 
+More examples can be found in **aq_kg_text_interface/queries.ttl**
 
 ## Step 4: Explanation of selected SPARQL queries
 
