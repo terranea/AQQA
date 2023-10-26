@@ -102,12 +102,4 @@ if __name__ == "__main__":
             st.dataframe(st.session_state["query_results"])
         else:
             st.dataframe()
-        
-
-
-
-
-
     
-
-    pass

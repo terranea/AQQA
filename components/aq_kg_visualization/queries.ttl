@@ -1,5 +1,5 @@
 @prefix aqqa: <http://example.com/ontologies/aqqa#> .
-@prefix lod: <http://geo.linkedopendata.gr/query/ontology#>
+@prefix lod: <http://geo.linkedopendata.gr/query/ontology/>
 
 aqqa:predefined_query_1 
     a lod:predefinedQuery

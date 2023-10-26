@@ -18,6 +18,11 @@ This project aims to create an Air Quality Knowledge Graph using data from the C
 
 For detailed documentation on each component, refer to their respective folders.
 
+### Dependencies
+
+```bash
+pip install --no-cache-dir -r requirements.txt
+```
 
 ## Web UI
 
@@ -25,6 +30,7 @@ To illustrate the process, you can utilize the Streamlit app. It facilitates the
 
 To start the app run
 ```bash
+cd components
 streamlit run app.py
 ```
 
