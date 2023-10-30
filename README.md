@@ -73,7 +73,7 @@ docker build -t aqqa_image .
 
 2) Run the docker container in interactive mode
 ```bash
-docker run -it aqqa_image /bin/bash
+docker run -it -p 8501:8501 aqqa_image /bin/bash
 ```
 
 3) Set STRABON_SPARQL_ENDPOINT variable in *components/aq_kg_query/config.py*. Point to your hosted Strabon endpoint.
