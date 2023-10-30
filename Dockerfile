@@ -1,15 +1,14 @@
-# Use the official Python image as the base image
-FROM python:3.9-slim
+FROM 3.11-slim-bullseye
+RUN apt-get update && apt-get install -y nano
 
-# Set the working directory in the container
 WORKDIR /app
-COPY . .
 
-# Copy the requirements file into the container
+ADD components /components
+ADD notebooks /notebooks
+ADD ontology /ontology
+COPY README.md .
 COPY requirements.txt .
 
-# Install the packages listed in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
-# Expose port 8501 for the Streamlit app
-EXPOSE 8501
+EXPOSE 8501 

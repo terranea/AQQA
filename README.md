@@ -62,3 +62,9 @@ Then the streamlit app should be accessible on 127.0.0.1:8501
      style="display: block; margin: 0 auto;"
      width="800" height="400" />
 
+
+
+## Running AQQA with Docker
+
+Build the docker image from the Docker file
+```bash
