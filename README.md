@@ -36,8 +36,8 @@ Install requirements
 pip install -r requirements.txt
 ```
 
-Set STRABON_SPARQL_ENDPOINT variable in *components/aq_kg_query/config.py*. Point to your hosted Strabon endpoint.
-Adjust directories in *components/aq_kg_text_interfact/config.py* according to the explanations within *components/aq_kg_text_interfact/README.md*
+- Set STRABON_SPARQL_ENDPOINT variable in *components/aq_kg_query/config.py*. Point to your hosted Strabon endpoint.
+- Adjust directories in *components/aq_kg_text_interfact/config.py* according to the explanations within *components/aq_kg_text_interfact/README.md*
 
 Enter working directory 
 ```bash
