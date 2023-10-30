@@ -2,7 +2,7 @@ import openai
 import os
 import rdflib
 from SPARQLWrapper import SPARQLWrapper, JSON
-from .config import STRABON_SPARQL_ENDPOINT, PATH_TO_OPENAI_KEY, PATH_TO_MODEL_INSTRUCTIONS, PATH_TO_QUERIES
+from .config import PATH_TO_OPENAI_KEY, PATH_TO_MODEL_INSTRUCTIONS, PATH_TO_QUERIES
 
 # set OPENAI_KEY
 os.environ["OPENAI_KEY"] = open(PATH_TO_OPENAI_KEY, 'r').read()

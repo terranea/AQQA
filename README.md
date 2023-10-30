@@ -18,11 +18,32 @@ This project aims to create an Air Quality Knowledge Graph using data from the C
 
 For detailed documentation on each component, refer to their respective folders.
 
-### Dependencies
+### Set-Up
 
+Clone repository
 ```bash
-pip install --no-cache-dir -r requirements.txt
+git clone https://github.com/terranea/AQQA.git
 ```
+
+We recommend creating a virtual environment before installing dependencies
+```bash
+conda create -n AQQA python=3.11
+conda activate
+```
+
+Install requirements
+```bash
+pip install -r requirements.txt
+```
+
+Set STRABON_SPARQL_ENDPOINT variable in *components/aq_kg_query/config.py*. Point to your hosted Strabon endpoint.
+Adjust directories in *components/aq_kg_text_interfact/config.py* according to the explanations within *components/aq_kg_text_interfact/README.md*
+
+Enter working directory 
+```bash
+cd AQQA
+```
+
 
 ## Web UI
 
