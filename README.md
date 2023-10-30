@@ -66,5 +66,21 @@ Then the streamlit app should be accessible on 127.0.0.1:8501
 
 ## Running AQQA with Docker
 
-Build the docker image from the Docker file
+1) Build the docker image from the Docker file
 ```bash
+docker build -t aqqa_image .
+```
+
+2) Run the docker container in interactive mode
+```bash
+docker run -it aqqa_image /bin/bash
+```
+
+3) Set STRABON_SPARQL_ENDPOINT variable in *components/aq_kg_query/config.py*. Point to your hosted Strabon endpoint.
+4) Adjust directories in *components/aq_kg_text_interfact/config.py* according to the explanations within *components/aq_kg_text_interfact/README.md*
+
+5) To start the app run
+```bash
+cd components
+streamlit run app.py
+```
