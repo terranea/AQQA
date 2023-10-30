@@ -1,6 +1,6 @@
 # Air Quality Knowledge Graph with CAMS Data
 
-This project aims to create an Air Quality Knowledge Graph using data from the Copernicus Atmosphere Monitoring Service (CAMS) and provide accessibility through natural language queries. At a high level, the project consists of three components working together to achieve this goal.
+This project aims to create an Air Quality Knowledge Graph using data from the Copernicus Atmosphere Monitoring Service (CAMS) and to provide accessibility through natural language queries. At a high level, the project consists of three components working together to achieve this goal.
 
 ## Components Overview
 
