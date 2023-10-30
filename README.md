@@ -20,26 +20,26 @@ For detailed documentation on each component, refer to their respective folders.
 
 ### Set-Up
 
-Clone repository
+1) Clone repository
 ```bash
 git clone https://github.com/terranea/AQQA.git
 ```
 
-We recommend creating a virtual environment before installing dependencies
+2) We recommend creating a virtual environment before installing dependencies
 ```bash
 conda create -n AQQA python=3.11
 conda activate
 ```
 
-Install requirements
+3) Install requirements
 ```bash
 pip install -r requirements.txt
 ```
 
-- Set STRABON_SPARQL_ENDPOINT variable in *components/aq_kg_query/config.py*. Point to your hosted Strabon endpoint.
-- Adjust directories in *components/aq_kg_text_interfact/config.py* according to the explanations within *components/aq_kg_text_interfact/README.md*
+4) Set STRABON_SPARQL_ENDPOINT variable in *components/aq_kg_query/config.py*. Point to your hosted Strabon endpoint.
+5) Adjust directories in *components/aq_kg_text_interfact/config.py* according to the explanations within *components/aq_kg_text_interfact/README.md*
 
-Enter working directory 
+6) Enter working directory 
 ```bash
 cd AQQA
 ```
@@ -49,13 +49,13 @@ cd AQQA
 
 To illustrate the process, you can utilize the Streamlit app. It facilitates the conversion of natural language into SPARQL queries for querying CAMS AQ data, sending the queries to the Strabon database, and presenting the results visually on a map or in tabular data format.
 
-To start the app run
+7) To start the app run
 ```bash
 cd components
 streamlit run app.py
 ```
 
-Then the streamlit app should be accessible on 127.0.0.1:8501. 
+Then the streamlit app should be accessible on 127.0.0.1:8501 
 
 <img src="streamlit_app.png"
      alt="Web UI AQQA"
