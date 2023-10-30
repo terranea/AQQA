@@ -3,12 +3,13 @@ RUN apt-get update && apt-get install -y nano
 
 WORKDIR /app
 
-ADD components /components
-ADD notebooks /notebooks
-ADD ontology /ontology
+COPY components /components
+COPY notebooks /notebooks
+COPY ontology /ontology
 COPY README.md .
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
+RUN mkdir credentials
 
 EXPOSE 8501 
