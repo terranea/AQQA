@@ -1,4 +1,4 @@
-FROM 3.11-slim-bullseye
+FROM python:3.11
 RUN apt-get update && apt-get install -y nano
 
 WORKDIR /app
