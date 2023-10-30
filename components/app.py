@@ -39,12 +39,13 @@ def create_sidebar():
         else:
             # convert text to sparql query
             sparql_query = text_to_sparql(text_input)
+            st.text("Done")
 
             if sparql_query[0] == "<" and sparql_query[-1] == ">":
                 st.sidebar.error(sparql_query[1:-1])
             else:
                 st.session_state['sparql_query'] = sparql_query
-                st.experimental_rerun()
+                #st.rerun()
     
     # Butto to query the databse
     if query_button:
@@ -57,7 +58,7 @@ def create_sidebar():
             geojson_results = convert_query_output_to_geojson(results)
             st.session_state["query_results"] = df_results
             st.session_state["query_results_geojson"] = geojson_results
-            st.experimental_rerun()
+            #st.experimental_rerun()
 
 
 if __name__ == "__main__":
@@ -103,3 +104,4 @@ if __name__ == "__main__":
         else:
             st.dataframe()
     
+    pass

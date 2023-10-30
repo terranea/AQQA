@@ -7,12 +7,12 @@ aqqa:query1 aqqa:hasQuery """
     PREFIX gadm: <http://example.com/ontologies/gadm#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-    SELECT ?obs_time ?obs_result ?foi_geom?
+    SELECT ?obs_time ?obs_result ?foi_geom
     WHERE {
         ?s a sosa:Observation ;
-            sosa:hasFeatureOfInterest ?foi_ent .
+            sosa:hasFeatureOfInterest ?foi_ent ;
             sosa:resultTime ?obs_time ;
-            sosa:hasSimpleResult ?obs_result ;
+            sosa:hasSimpleResult ?obs_result .
         ?foi_ent geo:hasGeometry ?foi_geom_ent .
         ?foi_geom_ent geo:asWKT ?foi_geom .
     } 
@@ -182,7 +182,6 @@ aqqa:query7 aqqa:hasQuery """
 
     SELECT ?obs_result ?obs_time ?gadm_name 
     WHERE {
-        {
             SELECT ?foi_ent ?cell_geom ?gadm_name
             WHERE {
                 ?foi_ent a sosa:FeatureOfInterest ;

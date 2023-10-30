@@ -86,8 +86,7 @@ The next step is to store the prepared RDF files in Strabon. Here we have 2 opti
 
 ### 2.2.: Store data via http request
 
-- Code to demonstrate Data Upload via HTTP request has not been successfully implemented yet. 
-- In Future working code will be stored in **strabon_store_data.py** file
+- Code to demonstrate Data Upload via HTTP will provided in future releases.
 
 ## Step 3: Query data
 
@@ -183,7 +182,7 @@ WHERE {
             ?foi_ent a sosa:FeatureOfInterest ;
                 geo:intersects ?gadm_ent .
             ?gadm_ent a gadm:AdministrativeUnit ;
-                gadm:hasName 'Geltendorf' ;
+                gadm:hasName 'Linz' ;
                 gadm:hasNationalLevel 3 .
         } 
     }
